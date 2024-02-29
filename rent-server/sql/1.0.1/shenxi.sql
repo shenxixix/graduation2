@@ -37,19 +37,23 @@ CREATE TABLE zm_v_enterprise (
   area_code int4 NOT NULL,
   address varchar(200) NOT NULL,
   introduce text NOT NULL,
-  ep_pics text COLLATE pg_catalog.default,
-  promise_pdf text COLLATE pg_catalog.default,
-  price_list_pdf text COLLATE pg_catalog.default,
+  ep_pics text ,
+  promise_pdf text ,
+  price_list_pdf text ,
   ep_status int4 NOT NULL DEFAULT 0,
   delete_flag int4 NOT NULL DEFAULT 0,
   total_star float8 NOT NULL DEFAULT 0,
   evaluate_num int4 NOT NULL DEFAULT 0,
   opt_user_id int8,
-  opt_org_id varchar(40) COLLATE pg_catalog.default,
-  fault_ep_code varchar(100) COLLATE pg_catalog.default,
+  opt_org_id varchar(40) ,
+  fault_ep_code varchar(100),
   service_start_time timestamp(6),
   service_end_time timestamp(6),
   admin_user_id int8,
+  withdraw_bank_no varchar(100),
+  withdraw_bank_name varchar(100),
+  withdraw_bank_user varchar(100),
+  withdraw_bank_mobile varchar(100),
   update_timestamp timestamp(6) DEFAULT now(),
   insert_timestamp timestamp(6) DEFAULT now(),
   CONSTRAINT pk_zm_v_enterprise PRIMARY KEY (key_id)
@@ -80,6 +84,10 @@ COMMENT ON COLUMN zm_v_enterprise.fault_ep_code IS '维修企业编码';
 COMMENT ON COLUMN zm_v_enterprise.service_start_time IS '服务开始时间';
 COMMENT ON COLUMN zm_v_enterprise.service_end_time IS '服务结束时间';
 COMMENT ON COLUMN zm_v_enterprise.admin_user_id IS '管理员用户ID';
+COMMENT ON COLUMN zm_v_enterprise.withdraw_bank_no IS '提现银行卡';
+COMMENT ON COLUMN zm_v_enterprise.withdraw_bank_name IS '提现银行名称';
+COMMENT ON COLUMN zm_v_enterprise.withdraw_bank_user IS '提现用户名';
+COMMENT ON COLUMN zm_v_enterprise.withdraw_bank_mobile IS '提现手机号';
 COMMENT ON TABLE zm_v_enterprise IS '企业信息表';
 
 CREATE TABLE zm_car_type (
@@ -152,6 +160,174 @@ COMMENT ON COLUMN zm_car_brand.opt_user_id IS '操作人ID';
 COMMENT ON COLUMN zm_car_brand.update_timestamp IS '更新时间戳';
 COMMENT ON COLUMN zm_car_brand.insert_timestamp IS '插入时间戳';
 COMMENT ON TABLE zm_car_brand IS '企业服务平台车辆品牌表';
+
+CREATE TABLE zm_v_role (
+  role_id int8 NOT NULL,
+  role_name varchar(50),
+  type int4 NOT NULL
+  remark varchar(100),
+  creator_id int8,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT zm_v_role_pkey PRIMARY KEY (role_id)
+);
+
+COMMENT ON COLUMN zm_v_role.role_id IS '角色ID';
+COMMENT ON COLUMN zm_v_role.role_name IS '角色名';
+COMMENT ON COLUMN zm_v_role.type IS '类型1:平台 2:车企';
+COMMENT ON COLUMN zm_v_role.remark IS '备注';
+COMMENT ON COLUMN zm_v_role.creator_id IS '创建人id';
+COMMENT ON COLUMN zm_v_role.update_timestamp IS '更新时间戳';
+COMMENT ON COLUMN zm_v_role.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE zm_v_role IS '平台角色';
+
+CREATE TABLE zm_v_role_menu (
+  key_id int8 NOT NULL,
+  role_id int8 NOT NULL,
+  menu_id int8 NOT NULL,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT zm_v_role_menu_pkey PRIMARY KEY (key_id)
+);
+
+COMMENT ON COLUMN zm_v_role_menu.key_id IS '用户id';
+COMMENT ON COLUMN zm_v_role_menu.role_id IS '角色id';
+COMMENT ON COLUMN zm_v_role_menu.menu_id IS '菜单id';
+COMMENT ON COLUMN zm_v_role_menu.update_timestamp IS '更新时间戳';
+COMMENT ON COLUMN zm_v_role_menu.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE zm_v_role_menu IS '平台角色菜单';
+
+CREATE TABLE zm_v_user_role (
+  key_id int8 NOT NULL,
+  user_id int8 NOT NULL,,
+  role_id int8 NOT NULL,,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT zm_v_user_role_pkey PRIMARY KEY (key_id)
+);
+COMMENT ON COLUMN zm_v_user_role.key_id IS '功能ID';
+COMMENT ON COLUMN zm_v_user_role.user_id IS '用户id';
+COMMENT ON COLUMN zm_v_user_role.role_id IS '角色id';
+COMMENT ON COLUMN zm_v_user_role.update_timestamp IS '更新时间戳';
+COMMENT ON COLUMN zm_v_user_role.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE zm_v_user_role IS '用户角色';
+
+CREATE TABLE zm_v_menu (
+  menu_id int8 NOT NULL,
+  name varchar(50) ,
+  parent_id int8 DEFAULT 0,
+  url varchar(500) ,
+  type int4,
+  icon varchar(50) ,
+  order_num int8,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  perm_val int4,
+  CONSTRAINT zm_v_menu_pkey PRIMARY KEY (menu_id)
+);
+
+COMMENT ON COLUMN zm_v_menu.menu_id IS '菜单ID';
+COMMENT ON COLUMN zm_v_menu.name IS '菜单名';
+COMMENT ON COLUMN zm_v_menu.parent_id IS '父级菜单id';
+COMMENT ON COLUMN zm_v_menu.url IS '跳转页面url';
+COMMENT ON COLUMN zm_v_menu.type IS '菜单类型0:目录;1:菜单;';
+COMMENT ON COLUMN zm_v_menu.icon IS '图标';
+COMMENT ON COLUMN zm_v_menu.order_num IS '菜单序号';
+COMMENT ON COLUMN zm_v_menu.update_timestamp IS '更新时间戳';
+COMMENT ON COLUMN zm_v_menu.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE zm_v_menu IS '系统菜单表';
+
+CREATE TABLE zm_withdraw_rule (
+  enterprise_id int8 NOT NULL,
+  ratio int8 NOT NULL,
+  operate_user int8 NOT NULL,
+  gmt_create timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  insert_timestamp timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT pk_zm_withdraw_rule PRIMARY KEY (key_id)
+);
+COMMENT ON COLUMN public.zm_withdraw_rule.enterprise_id IS '企业ID';
+COMMENT ON COLUMN public.zm_withdraw_rule.ratio IS '提现比例';
+COMMENT ON TABLE public.zm_withdraw_rule IS '企业提现规则信息表';
+
 ------ 商家 --------------------
+CREATE TABLE zm_enterprise_car (
+  car_id int8 NOT NULL,
+  enterprise_id int8 NOT NULL,
+  license varchar(10) NOT NULL,
+  car_model_id int8 NOT NULL,
+  register_date timestamp(6) NOT NULL,
+  delete_flag int4 NOT NULL DEFAULT 0,
+  opt_user_id int8,
+  rent_status int4 not null default 0,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_zm_enterprise_car PRIMARY KEY (car_id)
+);
+COMMENT ON COLUMN zm_enterprise_car.car_id IS '主键ID';
+COMMENT ON COLUMN zm_enterprise_car.license IS '车牌号';
+COMMENT ON COLUMN zm_enterprise_car.car_model_id IS '车辆型号ID';
+COMMENT ON COLUMN zm_enterprise_car.register_date IS '注册日期';
+COMMENT ON COLUMN zm_enterprise_car.delete_flag IS '删除标志(0:正常,1:删除)';
+COMMENT ON COLUMN zm_enterprise_car.opt_user_id IS '操作人ID';
+COMMENT ON COLUMN zm_enterprise_car.rent_status IS '当前租赁状态0:未租 1:已租';
+COMMENT ON COLUMN zm_enterprise_car.update_timestamp IS '更新时间戳';
+COMMENT ON COLUMN zm_enterprise_car.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE zm_enterprise_car IS '企业服务平台车辆信息表';
+
+CREATE TABLE zm_v_product (
+  key_id int8 NOT NULL,
+  enterprise_id int8 NOT NULL,
+  car_model_id int8 NOT NULL,
+  day_fee int4,
+  config_params text,
+  up_status int4 DEFAULT 0,
+  delete_flag int4 NOT NULL DEFAULT 0,
+  opt_user_id int8,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_zm_v_product PRIMARY KEY (key_id)
+);
+
+COMMENT ON COLUMN zm_v_product.key_id IS '主键ID';
+COMMENT ON COLUMN zm_v_product.enterprise_id IS '企业ID';
+COMMENT ON COLUMN zm_v_product.car_model_id IS '车辆型号ID';
+COMMENT ON COLUMN zm_v_product.day_fee IS '日租费(单位:分)';
+COMMENT ON COLUMN zm_v_product.config_params IS '产品特色';
+COMMENT ON COLUMN zm_v_product.up_status IS '上架状态(0:待处理,1:已上架,2:已下架)';
+COMMENT ON COLUMN zm_v_product.delete_flag IS '删除标志(0:正常,1:删除)';
+COMMENT ON COLUMN zm_v_product.opt_user_id IS '操作人ID';
+COMMENT ON COLUMN zm_v_product.update_timestamp IS '更新时间戳';
+COMMENT ON COLUMN zm_v_product.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE zm_v_product IS '企业服务平台产品信息表';
 
 ------ 用户 --------------------
+CREATE TABLE zm_v_user (
+  user_id int8 NOT NULL,
+  user_name varchar(20) not null,
+  user_password varchar(200),
+  user_mobile varchar(20) not null,
+  user_sex int4,
+  user_nick_name varchar(20) ,
+  user_path varchar(100),
+  birthday timestamp(6),
+  user_real_name varchar(20),
+  id_card varchar(200),
+  user_account_status int4 DEFAULT 1,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT zm_v_user_pkey PRIMARY KEY (user_id)
+);
+
+COMMENT ON COLUMN zm_v_user.user_id IS '用户ID';
+COMMENT ON COLUMN zm_v_user.user_name IS '用户名';
+COMMENT ON COLUMN zm_v_user.user_password IS '密码';
+COMMENT ON COLUMN zm_v_user.user_mobile IS '手机号';
+COMMENT ON COLUMN zm_v_user.user_sex IS '男1;女2';
+COMMENT ON COLUMN zm_v_user.change_password_status IS '强制修改密码状态(1:需要修改;0:不需要修改)';
+COMMENT ON COLUMN zm_v_user.user_account_status IS '1:启用;0:停用';
+COMMENT ON COLUMN zm_v_user.user_nick_name IS '用户名昵称';
+COMMENT ON COLUMN zm_v_user.user_path IS '用户头像';
+COMMENT ON COLUMN zm_v_user.birthday IS '生日';
+COMMENT ON COLUMN zm_v_user.update_timestamp IS '更新时间戳';
+COMMENT ON COLUMN zm_v_user.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE zm_v_user IS '租赁用户信息';
