@@ -249,6 +249,59 @@ COMMENT ON COLUMN public.zm_withdraw_rule.enterprise_id IS '企业ID';
 COMMENT ON COLUMN public.zm_withdraw_rule.ratio IS '提现比例';
 COMMENT ON TABLE public.zm_withdraw_rule IS '企业提现规则信息表';
 
+CREATE TABLE hw_rent_order (
+  order_id int8 NOT NULL,
+  user_id int8 NOT NULL,
+  user_id_card varchar(200) NOT NULL,
+  user_real_name varchar(200) NOT NULL,
+  enterprise_id int8 NOT NULL,
+  product_id int8 NOT NULL,
+  product_name varchar(100) NOT NULL,
+  product_pic varchar(100) NOT NULL,
+  start_time timestamp(6) NOT NULL,
+  end_time timestamp(6) NOT NULL,
+  end_time timestamp(6) NOT NULL,
+  start_address varchar(300) NOT NULL,
+  start_latitude float8 NOT NULL,
+  start_longitude float8 NOT NULL,
+  end_address varchar(300) NOT NULL,
+  end_latitude float8 NOT NULL,
+  end_longitude float8 NOT NULL,
+  fee int8 NOT NULL default 0,
+  car_brand_id int8 NOT NULL,
+  car_brand varchar(200) NOT NULL,
+  car_model_id int8 NOT NULL,
+  car_model varchar(200) NOT NULL,
+  car_type_id int8 NOT NULL,
+  car_type varchar(200) NOT NULL,
+  product_detail text NOT NULL,
+  status int2 NOT NULL DEFAULT 0,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_hw_rent_order PRIMARY KEY (order_id)
+);
+COMMENT ON COLUMN hw_rent_order.status IS '状态1:已支付';
+COMMENT ON COLUMN hw_rent_order.user_id IS '法人身份证';
+COMMENT ON COLUMN hw_rent_order.user_id_card IS '法人身份证';
+COMMENT ON COLUMN hw_rent_order.user_real_name IS '法人姓名';
+COMMENT ON COLUMN hw_rent_order.product_id IS '产品id';
+COMMENT ON COLUMN hw_rent_order.product_name IS '产品名称';
+COMMENT ON COLUMN hw_rent_order.product_pic IS '产品图片';
+COMMENT ON COLUMN hw_rent_order.start_time IS '开始时间';
+COMMENT ON COLUMN hw_rent_order.end_time IS '结束时间';
+COMMENT ON COLUMN hw_rent_order.start_address IS '取车地址';
+COMMENT ON COLUMN hw_rent_order.start_latitude IS '取车地址纬度';
+COMMENT ON COLUMN hw_rent_order.start_longitude IS '取车地址经度';
+COMMENT ON COLUMN hw_rent_order.end_address IS '还车地址';
+COMMENT ON COLUMN hw_rent_order.end_latitude IS '还车地址纬度';
+COMMENT ON COLUMN hw_rent_order.end_longitude IS '还车地址经度';
+COMMENT ON COLUMN hw_rent_order.fee IS '费用(分)';
+COMMENT ON COLUMN hw_rent_order.car_brand IS '车品牌';
+COMMENT ON COLUMN hw_rent_order.car_model IS '车型';
+COMMENT ON COLUMN hw_rent_order.car_type IS '车类型';
+COMMENT ON COLUMN hw_rent_order.product_detail IS '产品详情';
+COMMENT ON COLUMN hw_rent_order.status IS '状态1:已支付';
+COMMENT ON TABLE hw_rent_order IS '租赁订单表';
 ------ 商家 --------------------
 CREATE TABLE zm_enterprise_station (
   station_id int8 NOT NULL,
@@ -312,6 +365,7 @@ CREATE TABLE zm_v_product (
   enterprise_id int8 NOT NULL,
   car_model_id int8 NOT NULL,
   day_fee int4,
+  pic varchar(100),
   config_params text,
   up_status int4 DEFAULT 0,
   delete_flag int4 NOT NULL DEFAULT 0,
@@ -325,6 +379,7 @@ COMMENT ON COLUMN zm_v_product.key_id IS '主键ID';
 COMMENT ON COLUMN zm_v_product.enterprise_id IS '企业ID';
 COMMENT ON COLUMN zm_v_product.car_model_id IS '车辆型号ID';
 COMMENT ON COLUMN zm_v_product.day_fee IS '日租费(单位:分)';
+COMMENT ON COLUMN zm_v_product.pic IS '产品图片';
 COMMENT ON COLUMN zm_v_product.config_params IS '产品特色';
 COMMENT ON COLUMN zm_v_product.up_status IS '上架状态(0:待处理,1:已上架,2:已下架)';
 COMMENT ON COLUMN zm_v_product.delete_flag IS '删除标志(0:正常,1:删除)';
@@ -336,15 +391,15 @@ COMMENT ON TABLE zm_v_product IS '企业服务平台产品信息表';
 CREATE TABLE zm_dispatch_car (
   dispatch_id int8 NOT NULL,
   enterprise_id int8 NOT NULL,
-  user_id int8,
+  user_id int8 NOT NULL,
   user_name varchar(40),
-  order_id int8,
+  order_id int8 not null,
   start_time timestamp(6),
   end_time timestamp(6),
   start_address varchar(500),
   end_address varchar(500),
   car_id int8,
-  lisence varchar(20),
+  license varchar(20),
   status int4 not null default 0,
   update_timestamp timestamp(6) DEFAULT now(),
   insert_timestamp timestamp(6) DEFAULT now(),,
@@ -358,7 +413,7 @@ COMMENT ON COLUMN zm_dispatch_car.end_time IS '租车结束时间';
 COMMENT ON COLUMN zm_dispatch_car.start_address IS '取车地址';
 COMMENT ON COLUMN zm_dispatch_car.end_address IS '还车地址';
 COMMENT ON COLUMN zm_dispatch_car.car_id IS '车辆ID';
-COMMENT ON COLUMN zm_dispatch_car.lisence IS '车牌号';
+COMMENT ON COLUMN zm_dispatch_car.license IS '车牌号';
 COMMENT ON COLUMN zm_dispatch_car.status IS '状态0:待派车 1:已派车 2:已接车 3:已还车';
 COMMENT ON TABLE zm_dispatch_car IS '派车单';
 
@@ -452,3 +507,95 @@ COMMENT ON COLUMN zm_v_user.birthday IS '生日';
 COMMENT ON COLUMN zm_v_user.update_timestamp IS '更新时间戳';
 COMMENT ON COLUMN zm_v_user.insert_timestamp IS '插入时间戳';
 COMMENT ON TABLE zm_v_user IS '租赁用户信息';
+
+CREATE TABLE zm_user_order (
+  order_id int8 NOT NULL,
+  user_id int8 NOT NULL,
+  user_id_card varchar(200) NOT NULL,
+  user_real_name varchar(200) NOT NULL,
+  enterprise_id int8 NOT NULL,
+  product_id int8 NOT NULL,
+  product_name varchar(100) NOT NULL,
+  product_pic varchar(100) NOT NULL,
+  start_time timestamp(6) NOT NULL,
+  end_time timestamp(6) NOT NULL,
+  end_time timestamp(6) NOT NULL,
+  start_address varchar(300) NOT NULL,
+  start_latitude float8 NOT NULL,
+  start_longitude float8 NOT NULL,
+  end_address varchar(300) NOT NULL,
+  end_latitude float8 NOT NULL,
+  end_longitude float8 NOT NULL,
+  fee int8 NOT NULL default 0,
+  car_brand_id int8 NOT NULL,
+  car_brand varchar(200) NOT NULL,
+  car_model_id int8 NOT NULL,
+  car_model varchar(200) NOT NULL,
+  car_type_id int8 NOT NULL,
+  car_type varchar(200) NOT NULL,
+  product_detail text NOT NULL,
+  status int2 NOT NULL DEFAULT 0,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_zm_user_order PRIMARY KEY (order_id)
+);
+COMMENT ON COLUMN zm_user_order.status IS '状态1:已支付';
+COMMENT ON COLUMN zm_user_order.user_id IS '法人身份证';
+COMMENT ON COLUMN zm_user_order.user_idcard IS '法人身份证';
+COMMENT ON COLUMN zm_user_order.user_real_name IS '法人姓名';
+COMMENT ON COLUMN zm_user_order.product_id IS '产品id';
+COMMENT ON COLUMN zm_user_order.product_name IS '产品名称';
+COMMENT ON COLUMN zm_user_order.product_pic IS '产品图片';
+COMMENT ON COLUMN zm_user_order.start_time IS '开始时间';
+COMMENT ON COLUMN zm_user_order.end_time IS '结束时间';
+COMMENT ON COLUMN zm_user_order.start_address IS '取车地址';
+COMMENT ON COLUMN zm_user_order.start_latitude IS '取车地址纬度';
+COMMENT ON COLUMN zm_user_order.start_longitude IS '取车地址经度';
+COMMENT ON COLUMN zm_user_order.end_address IS '还车地址';
+COMMENT ON COLUMN zm_user_order.end_latitude IS '还车地址纬度';
+COMMENT ON COLUMN zm_user_order.end_longitude IS '还车地址经度';
+COMMENT ON COLUMN zm_user_order.fee IS '费用(分)';
+COMMENT ON COLUMN zm_user_order.car_brand IS '车品牌';
+COMMENT ON COLUMN zm_user_order.car_model IS '车型';
+COMMENT ON COLUMN zm_user_order.car_type IS '车类型';
+COMMENT ON COLUMN zm_user_order.product_detail IS '产品详情';
+COMMENT ON COLUMN zm_user_order.status IS '状态0待支付 1:已支付';
+COMMENT ON TABLE zm_user_order IS '租赁订单表';
+
+CREATE TABLE zm_user_pick_up (
+  dispatch_id int8 NOT NULL,
+  user_id int8 NOT NULL,
+  car_id int8,
+  car_pics text,
+  remark varchar(500),
+  get_time timestamp(6),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_zm_user_pick_up PRIMARY KEY (dispatch_id)
+);
+COMMENT ON COLUMN zm_user_pick_up.dispatch_id IS '派车单id';
+COMMENT ON COLUMN zm_user_pick_up.user_id IS '用户id';
+COMMENT ON COLUMN zm_user_pick_up.car_id IS '车id';
+COMMENT ON COLUMN zm_user_pick_up.get_time IS '取车时间';
+COMMENT ON COLUMN zm_user_pick_up.car_pics IS '取车时的车辆图片信息';
+COMMENT ON COLUMN zm_user_pick_up.remark IS '备注';
+COMMENT ON TABLE zm_user_pick_up IS '取车信息表';
+
+CREATE TABLE zm_user_car_back (
+  dispatch_id int8 NOT NULL,
+  user_id int8 NOT NULL,
+  car_id int8,
+  car_pics text,
+  remark varchar(500),
+  extra_fee int8 default 0,
+  back_time timestamp(6),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_zm_user_car_back PRIMARY KEY (dispatch_id)
+);
+COMMENT ON COLUMN zm_user_car_back.dispatch_id IS '派车单id';
+COMMENT ON COLUMN zm_user_car_back.user_id IS '用户id';
+COMMENT ON COLUMN zm_user_car_back.car_id IS '车id';
+COMMENT ON COLUMN zm_user_car_back.back_time IS '还车时间';
+COMMENT ON COLUMN zm_user_car_back.car_pics IS '取车时的车辆图片信息';
+COMMENT ON COLUMN zm_user_car_back.remark IS '备注';
+COMMENT ON COLUMN zm_user_car_back.extra_fee IS '额外费用(分)';
+COMMENT ON TABLE zm_user_car_back IS '还车信息表';
