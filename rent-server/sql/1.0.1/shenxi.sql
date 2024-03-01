@@ -250,6 +250,39 @@ COMMENT ON COLUMN public.zm_withdraw_rule.ratio IS '提现比例';
 COMMENT ON TABLE public.zm_withdraw_rule IS '企业提现规则信息表';
 
 ------ 商家 --------------------
+CREATE TABLE zm_enterprise_station (
+  station_id int8 NOT NULL,
+  station_name varchar(50) NOT NULL,
+  enterprise_id int8 NOT NULL,
+  phone_num varchar(20),
+  latitude float8,
+  longitude float8,
+  location varchar(500),
+  city_code int4,
+  city_name varchar(50),
+  station_pics text,
+  del_flag int4 NOT NULL DEFAULT 0,
+  opt_user_id int8,
+  opt_timestamp timestamp(6),
+  update_timestamp timestamp(6) DEFAULT CURRENT_TIMESTAMP,
+  insert_timestamp timestamp(6) DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT pk_zm_enterprise_station PRIMARY KEY (station_id)
+);
+COMMENT ON COLUMN zm_enterprise_station.station_id IS '企业id';
+COMMENT ON COLUMN zm_enterprise_station.station_name IS '企业名称';
+COMMENT ON COLUMN zm_enterprise_station.enterprise_id IS '租赁企业id';
+COMMENT ON COLUMN zm_enterprise_station.latitude IS '纬度';
+COMMENT ON COLUMN zm_enterprise_station.longitude IS '经度';
+COMMENT ON COLUMN zm_enterprise_station.location IS '位置信息';
+COMMENT ON COLUMN zm_enterprise_station.city_code IS '所属城市代码';
+COMMENT ON COLUMN zm_enterprise_station.city_name IS '所属城市';
+COMMENT ON COLUMN zm_enterprise_station.phone_num IS '联系电话';
+COMMENT ON COLUMN zm_enterprise_station.station_pics IS '门脸照片';
+COMMENT ON COLUMN zm_enterprise_station.del_flag IS '删除状态，0：未删除，1：已删除';
+COMMENT ON COLUMN zm_enterprise_station.opt_user_id IS '关闭操作人ID';
+COMMENT ON COLUMN zm_enterprise_station.opt_timestamp IS '操作时间';
+COMMENT ON TABLE zm_enterprise_station IS '企业站点表(用于取还车)';
+
 CREATE TABLE zm_enterprise_car (
   car_id int8 NOT NULL,
   enterprise_id int8 NOT NULL,
@@ -300,6 +333,94 @@ COMMENT ON COLUMN zm_v_product.update_timestamp IS '更新时间戳';
 COMMENT ON COLUMN zm_v_product.insert_timestamp IS '插入时间戳';
 COMMENT ON TABLE zm_v_product IS '企业服务平台产品信息表';
 
+CREATE TABLE zm_dispatch_car (
+  dispatch_id int8 NOT NULL,
+  enterprise_id int8 NOT NULL,
+  user_id int8,
+  user_name varchar(40),
+  order_id int8,
+  start_time timestamp(6),
+  end_time timestamp(6),
+  start_address varchar(500),
+  end_address varchar(500),
+  car_id int8,
+  lisence varchar(20),
+  status int4 not null default 0,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),,
+  CONSTRAINT zm_dispatch_car_pkey PRIMARY KEY (dispatch_id)
+);
+COMMENT ON COLUMN zm_dispatch_car.user_id IS '用车人ID';
+COMMENT ON COLUMN zm_dispatch_car.user_name IS '用车人名';
+COMMENT ON COLUMN zm_dispatch_car.enterprise_id IS '派车企业id';
+COMMENT ON COLUMN zm_dispatch_car.start_time IS '租车开始时间';
+COMMENT ON COLUMN zm_dispatch_car.end_time IS '租车结束时间';
+COMMENT ON COLUMN zm_dispatch_car.start_address IS '取车地址';
+COMMENT ON COLUMN zm_dispatch_car.end_address IS '还车地址';
+COMMENT ON COLUMN zm_dispatch_car.car_id IS '车辆ID';
+COMMENT ON COLUMN zm_dispatch_car.lisence IS '车牌号';
+COMMENT ON COLUMN zm_dispatch_car.status IS '状态0:待派车 1:已派车 2:已接车 3:已还车';
+COMMENT ON TABLE zm_dispatch_car IS '派车单';
+
+CREATE TABLE zm_enterprise_wallet (
+  enterprise_id int8 NOT NULL,
+  money int4 NOT NULL DEFAULT 0,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_zm_enterprise_wallet PRIMARY KEY (enterprise_id)
+);
+COMMENT ON COLUMN zm_enterprise_wallet.enterprise_id IS '企业id';
+COMMENT ON COLUMN zm_enterprise_wallet.money IS '金额(分)';
+COMMENT ON TABLE zm_enterprise_wallet IS '钱包表';
+
+CREATE TABLE zm_enterprise_transfer_apply (
+  key_id int8 NOT NULL,
+  apply_user_id int8 NOT NULL,
+  enterprise_id int8 NOT NULL,
+  money int4 NOT NULL DEFAULT 0,
+  transfer_account varchar(100) NOT NULL,
+  transfer_user_name varchar(200) NOT NULL,
+  commission int4 NOT NULL DEFAULT 0,
+  remark varchar(500),
+  transfer_pic varchar(300),
+  handle_user_id int8,
+  apply_status int2 NOT NULL DEFAULT 1,
+  handle_timestamp timestamp(6),
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_zm_enterprise_transfer_apply PRIMARY KEY (key_id)
+);
+COMMENT ON COLUMN zm_enterprise_transfer_apply.apply_user_id IS '申请人用户id';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.enterprise_id IS '企业id';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.money IS '金额(分), 包含了手续费的';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.transfer_account IS '提现账号';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.transfer_user_name IS '收款人';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.commission IS '手续费';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.remark IS '备注';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.transfer_pic IS '转账凭证';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.handle_user_id IS '处理人id';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.apply_status IS '审核状态(1:待转账,2:成功,3:失败)';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.handle_timestamp IS '处理时间';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.update_timestamp IS '修改时间';
+COMMENT ON COLUMN zm_enterprise_transfer_apply.insert_timestamp IS '添加时间';
+COMMENT ON TABLE zm_enterprise_transfer_apply IS '企业提现申请表';
+
+CREATE TABLE zm_enterprise_wallet_log (
+  key_id int8 NOT NULL,
+  enterprise_id int8 NOT NULL,
+  type int4 NOT NULL default 1,
+  money int4 NOT NULL DEFAULT 0,
+  remark varchar(500),
+  buss_id int8,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_zm_enterprise_wallet_log PRIMARY KEY (key_id)
+);
+COMMENT ON COLUMN zm_enterprise_wallet_log.enterprise_id IS '企业id';
+COMMENT ON COLUMN zm_enterprise_wallet_log.money IS '金额(分),大于0转入小于0转出';
+COMMENT ON COLUMN zm_enterprise_wallet_log.type IS '类型1:订单费用 2:提现费用';
+COMMENT ON COLUMN zm_enterprise_wallet_log.buss_id IS '业务id,type=1订单id,type=2提现申请id';
+COMMENT ON TABLE zm_enterprise_wallet_log IS '企业钱包历史表';
 ------ 用户 --------------------
 CREATE TABLE zm_v_user (
   user_id int8 NOT NULL,
