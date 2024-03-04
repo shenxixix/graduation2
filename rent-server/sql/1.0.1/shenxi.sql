@@ -1,30 +1,30 @@
 ------ 平台 --------------------
-CREATE TABLE rent_platform_user (
+CREATE TABLE rent_v_manager (
   user_id int8 NOT NULL,
   user_name varchar(50) NOT NULL,
   user_password varchar(100) NOT NULL,
   user_mobile varchar(20) NOT NULL,
   user_sex int4,
-  company_id varchar(40),
+  enterprise_id varchar(40),
   user_role int4,
   user_account_status int4 DEFAULT 1,
   creator_id int8,
   update_timestamp timestamp(6) DEFAULT now(),
   insert_timestamp timestamp(6) DEFAULT now(),
-  CONSTRAINT rent_platform_user_pkey PRIMARY KEY (user_id)
+  CONSTRAINT rent_v_manager_pkey PRIMARY KEY (user_id)
 );
-COMMENT ON COLUMN rent_platform_user.user_id IS '用户id';
-COMMENT ON COLUMN rent_platform_user.user_name IS '用户名';
-COMMENT ON COLUMN rent_platform_user.user_password IS '密码';
-COMMENT ON COLUMN rent_platform_user.user_mobile IS '手机号';
-COMMENT ON COLUMN rent_platform_user.user_sex IS '性别';
-COMMENT ON COLUMN rent_platform_user.company_id IS '车企id';
-COMMENT ON COLUMN rent_platform_user.user_role IS '1:平台管理员; 2:车企管理员';
-COMMENT ON COLUMN rent_platform_user.user_account_status IS '1:启用;0:停用';
-COMMENT ON COLUMN rent_platform_user.creator_id IS '创建者id';
-COMMENT ON COLUMN rent_platform_user.update_timestamp IS '更新时间戳';
-COMMENT ON COLUMN rent_platform_user.insert_timestamp IS '插入时间戳';
-COMMENT ON TABLE rent_platform_user IS '管理端用户表';
+COMMENT ON COLUMN rent_v_manager.user_id IS '用户id';
+COMMENT ON COLUMN rent_v_manager.user_name IS '用户名';
+COMMENT ON COLUMN rent_v_manager.user_password IS '密码';
+COMMENT ON COLUMN rent_v_manager.user_mobile IS '手机号';
+COMMENT ON COLUMN rent_v_manager.user_sex IS '性别';
+COMMENT ON COLUMN rent_v_manager.enterprise_id IS '车企id';
+COMMENT ON COLUMN rent_v_manager.user_role IS '1:平台管理员; 2:车企管理员';
+COMMENT ON COLUMN rent_v_manager.user_account_status IS '1:启用;0:停用';
+COMMENT ON COLUMN rent_v_manager.creator_id IS '创建者id';
+COMMENT ON COLUMN rent_v_manager.update_timestamp IS '更新时间戳';
+COMMENT ON COLUMN rent_v_manager.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE rent_v_manager IS '管理端用户表';
 
 CREATE TABLE rent_v_enterprise (
   key_id int8 NOT NULL,
@@ -164,7 +164,7 @@ COMMENT ON TABLE rent_car_brand IS '企业服务平台车辆品牌表';
 CREATE TABLE rent_v_role (
   role_id int8 NOT NULL,
   role_name varchar(50),
-  type int4 NOT NULL
+  type int4 NOT NULL,
   remark varchar(100),
   creator_id int8,
   update_timestamp timestamp(6) DEFAULT now(),
@@ -199,8 +199,8 @@ COMMENT ON TABLE rent_v_role_menu IS '平台角色菜单';
 
 CREATE TABLE rent_v_user_role (
   key_id int8 NOT NULL,
-  user_id int8 NOT NULL,,
-  role_id int8 NOT NULL,,
+  user_id int8 NOT NULL,
+  role_id int8 NOT NULL,
   update_timestamp timestamp(6) DEFAULT now(),
   insert_timestamp timestamp(6) DEFAULT now(),
   CONSTRAINT rent_v_user_role_pkey PRIMARY KEY (key_id)
@@ -243,65 +243,28 @@ CREATE TABLE rent_withdraw_rule (
   operate_user int8 NOT NULL,
   gmt_create timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
   insert_timestamp timestamp(6) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT pk_rent_withdraw_rule PRIMARY KEY (key_id)
+  CONSTRAINT pk_rent_withdraw_rule PRIMARY KEY (enterprise_id)
 );
 COMMENT ON COLUMN public.rent_withdraw_rule.enterprise_id IS '企业ID';
 COMMENT ON COLUMN public.rent_withdraw_rule.ratio IS '提现比例';
 COMMENT ON TABLE public.rent_withdraw_rule IS '企业提现规则信息表';
 
-CREATE TABLE hw_rent_order (
-  order_id int8 NOT NULL,
+CREATE TABLE rent_platform_log (
+  key_id int8 NOT NULL,
   user_id int8 NOT NULL,
-  user_id_card varchar(200) NOT NULL,
-  user_real_name varchar(200) NOT NULL,
-  enterprise_id int8 NOT NULL,
-  product_id int8 NOT NULL,
-  product_name varchar(100) NOT NULL,
-  product_pic varchar(100) NOT NULL,
-  start_time timestamp(6) NOT NULL,
-  end_time timestamp(6) NOT NULL,
-  end_time timestamp(6) NOT NULL,
-  start_address varchar(300) NOT NULL,
-  start_latitude float8 NOT NULL,
-  start_longitude float8 NOT NULL,
-  end_address varchar(300) NOT NULL,
-  end_latitude float8 NOT NULL,
-  end_longitude float8 NOT NULL,
-  fee int8 NOT NULL default 0,
-  car_brand_id int8 NOT NULL,
-  car_brand varchar(200) NOT NULL,
-  car_model_id int8 NOT NULL,
-  car_model varchar(200) NOT NULL,
-  car_type_id int8 NOT NULL,
-  car_type varchar(200) NOT NULL,
-  product_detail text NOT NULL,
-  status int2 NOT NULL DEFAULT 0,
-  update_timestamp timestamp(6) DEFAULT now(),
+  user_name varchar(50),
+  operation varchar(50),
+  content text,
   insert_timestamp timestamp(6) DEFAULT now(),
-  CONSTRAINT pk_hw_rent_order PRIMARY KEY (order_id)
+  CONSTRAINT rent_platform_log_pkey PRIMARY KEY (key_id)
 );
-COMMENT ON COLUMN hw_rent_order.status IS '状态1:已支付';
-COMMENT ON COLUMN hw_rent_order.user_id IS '法人身份证';
-COMMENT ON COLUMN hw_rent_order.user_id_card IS '法人身份证';
-COMMENT ON COLUMN hw_rent_order.user_real_name IS '法人姓名';
-COMMENT ON COLUMN hw_rent_order.product_id IS '产品id';
-COMMENT ON COLUMN hw_rent_order.product_name IS '产品名称';
-COMMENT ON COLUMN hw_rent_order.product_pic IS '产品图片';
-COMMENT ON COLUMN hw_rent_order.start_time IS '开始时间';
-COMMENT ON COLUMN hw_rent_order.end_time IS '结束时间';
-COMMENT ON COLUMN hw_rent_order.start_address IS '取车地址';
-COMMENT ON COLUMN hw_rent_order.start_latitude IS '取车地址纬度';
-COMMENT ON COLUMN hw_rent_order.start_longitude IS '取车地址经度';
-COMMENT ON COLUMN hw_rent_order.end_address IS '还车地址';
-COMMENT ON COLUMN hw_rent_order.end_latitude IS '还车地址纬度';
-COMMENT ON COLUMN hw_rent_order.end_longitude IS '还车地址经度';
-COMMENT ON COLUMN hw_rent_order.fee IS '费用(分)';
-COMMENT ON COLUMN hw_rent_order.car_brand IS '车品牌';
-COMMENT ON COLUMN hw_rent_order.car_model IS '车型';
-COMMENT ON COLUMN hw_rent_order.car_type IS '车类型';
-COMMENT ON COLUMN hw_rent_order.product_detail IS '产品详情';
-COMMENT ON COLUMN hw_rent_order.status IS '状态1:已支付';
-COMMENT ON TABLE hw_rent_order IS '租赁订单表';
+COMMENT ON COLUMN rent_platform_log.user_id IS '用户id';
+COMMENT ON COLUMN rent_platform_log.user_name IS '用户名';
+COMMENT ON COLUMN rent_platform_log.operation IS '操作';
+COMMENT ON COLUMN rent_platform_log.content IS '方法';
+COMMENT ON COLUMN rent_platform_log.insert_timestamp IS '插入时间戳';
+COMMENT ON TABLE rent_platform_log IS '平台日志';
+
 ------ 商家 --------------------
 CREATE TABLE rent_enterprise_station (
   station_id int8 NOT NULL,
@@ -402,7 +365,7 @@ CREATE TABLE rent_dispatch_car (
   license varchar(20),
   status int4 not null default 0,
   update_timestamp timestamp(6) DEFAULT now(),
-  insert_timestamp timestamp(6) DEFAULT now(),,
+  insert_timestamp timestamp(6) DEFAULT now(),
   CONSTRAINT rent_dispatch_car_pkey PRIMARY KEY (dispatch_id)
 );
 COMMENT ON COLUMN rent_dispatch_car.user_id IS '用车人ID';
@@ -518,7 +481,6 @@ CREATE TABLE rent_user_order (
   product_pic varchar(100) NOT NULL,
   start_time timestamp(6) NOT NULL,
   end_time timestamp(6) NOT NULL,
-  end_time timestamp(6) NOT NULL,
   start_address varchar(300) NOT NULL,
   start_latitude float8 NOT NULL,
   start_longitude float8 NOT NULL,
@@ -541,7 +503,7 @@ CREATE TABLE rent_user_order (
 );
 COMMENT ON COLUMN rent_user_order.status IS '状态1:已支付';
 COMMENT ON COLUMN rent_user_order.user_id IS '法人身份证';
-COMMENT ON COLUMN rent_user_order.user_idcard IS '法人身份证';
+COMMENT ON COLUMN rent_user_order.user_id_card IS '法人身份证';
 COMMENT ON COLUMN rent_user_order.user_real_name IS '法人姓名';
 COMMENT ON COLUMN rent_user_order.product_id IS '产品id';
 COMMENT ON COLUMN rent_user_order.product_name IS '产品名称';

@@ -9,11 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0.1-SNAPSHOT</version>
     <modules>
-        <module>rent-server-common</module>
-        <module>rent-server-user</module>
-        <module>rent-server-domain</module>
-        <module>rent-server-config</module>
-        <module>rent-server-manager</module>
+        <module>rent-sys-server</module>
         <module>rent-server-tool-domain</module>
     </modules>
 

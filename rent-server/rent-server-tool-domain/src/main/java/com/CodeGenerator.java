@@ -28,19 +28,67 @@ public class CodeGenerator {
      */
     public static void main(String[] args) {
 
-        //需要生成的表
-        String tables[]={
-            "hw_car_pre_book_order"
-        };
+        /**
+         *  平台
+         */
+//        String tables[]={
+//            "rent_platform_user"
+//                ,"rent_v_enterprise"
+//                ,"rent_car_type"
+//                ,"rent_car_model"
+//                ,"rent_car_brand"
+//                ,"rent_v_role"
+//                ,"rent_v_role_menu"
+//                ,"rent_v_user_role"
+//                ,"rent_v_menu"
+//                ,"rent_withdraw_rule"
+//                ,"rent_platform_log"
+//        };
+
+        /**
+         *  商家
+         */
+//        String tables[]={
+//                "rent_enterprise_station"
+//                ,"rent_enterprise_car"
+//                ,"rent_v_product"
+//                ,"rent_dispatch_car"
+//                ,"rent_enterprise_wallet"
+//                ,"rent_enterprise_transfer_apply"
+//                ,"rent_enterprise_wallet_log"
+//        };
+        /**
+         *  用户
+         */
+//        String tables[]={
+//                "rent_v_user"
+//                ,"rent_user_order"
+//                ,"rent_user_pick_up"
+//                ,"rent_user_car_back"
+//        };
+        String tables[]={"rent_v_manager"};
 //生成的项目路径
-        String projectPath = System.getProperty("user.dir") + "/rent-server-domain";
+        String projectPath = System.getProperty("user.dir") + "/rent-sys-server";
         //源码包
         String outPutDir="/src/main/java";
+        String packageName = "platform";
         //xml生成文件夹
-        String xmlPath=outPutDir+"/com/yolo/hw/domain/auto/order/mapper/";
+        String xmlPath=outPutDir+"/com/yolo/hw/user/domain/auto/" +packageName+ "/mapper/";
         //类的包名
-        String parentPage="com.yolo.hw.domain.auto.order";
+        String parentPage="com.yolo.hw.user";
 
+        //类的包名
+        String entity ="domain.auto."+packageName+".entity";
+
+        //类的包名
+        String mapper ="domain.auto." + packageName + ".mapper";
+
+        //类的包名
+        String controller="controller." + packageName;
+        //类的包名
+        String serviceName ="service";
+        //类的包名
+        String serviceImpName ="service.impl";
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
 
@@ -49,7 +97,7 @@ public class CodeGenerator {
 
 //        String projectPath = "D:/auto";
         gc.setOutputDir(projectPath + outPutDir);
-        gc.setAuthor("ruanql");
+        gc.setAuthor("shenxi");
         gc.setOpen(false);
         gc.setFileOverride(true);
         gc.setSwagger2(true);
@@ -60,9 +108,9 @@ public class CodeGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDriverName("org.postgresql.Driver");
-        dsc.setUsername("hwrent");
-        dsc.setPassword("HN5HPQbX");
-        dsc.setUrl("jdbc:postgresql://pgm-8vbyy75d2otao76g4o.pgsql.zhangbei.rds.aliyuncs.com:5432/hwrent");
+        dsc.setUsername("cqgcgl");
+        dsc.setPassword("cqgcgl");
+        dsc.setUrl("jdbc:postgresql://192.168.18.105:35432/shenxi");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -71,6 +119,11 @@ public class CodeGenerator {
         //pc.setModuleName(scanner("模块名"));
 
         pc.setParent(parentPage);
+        pc.setEntity(entity);
+        pc.setMapper(mapper);
+        pc.setServiceImpl(serviceImpName);
+        pc.setController(controller);
+        pc.setService(serviceName);
         mpg.setPackageInfo(pc);
 
         // 自定义配置
@@ -105,9 +158,9 @@ public class CodeGenerator {
 
         // 配置自定义输出模板
 //         templateConfig.setEntity();
-        templateConfig.setService(null);
-        templateConfig.setController(null);
-        templateConfig.setServiceImpl(null);
+      //  templateConfig.setService(null);
+     //   templateConfig.setController(null);
+      //  templateConfig.setServiceImpl(null);
 
         templateConfig.setXml(null);
         mpg.setTemplate(templateConfig);
