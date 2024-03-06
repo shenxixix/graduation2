@@ -562,3 +562,4 @@ COMMENT ON COLUMN rent_user_car_back.car_pics IS '取车时的车辆图片信息
 COMMENT ON COLUMN rent_user_car_back.remark IS '备注';
 COMMENT ON COLUMN rent_user_car_back.extra_fee IS '额外费用(分)';
 COMMENT ON TABLE rent_user_car_back IS '还车信息表';
+
