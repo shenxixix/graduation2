@@ -1,6 +1,6 @@
 package com.yolo.hw.user.service;
 
-import com.yolo.hw.user.domain.auto.enterprise.entity.RentEnterpriseStation;
+import com.yolo.hw.user.domain.auto.platform.entity.RentEnterpriseStation;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 public interface IRentEnterpriseStationService extends IService<RentEnterpriseStation> {
 

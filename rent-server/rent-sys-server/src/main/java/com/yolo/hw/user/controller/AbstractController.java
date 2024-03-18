@@ -103,4 +103,13 @@ public abstract class AbstractController {
         }
         return val;
     }
+
+    protected Integer getUserType(HttpServletRequest request) {
+        Integer userType = 1;
+        Object obj = request.getAttribute("userId");
+        if(obj != null && !StringUtils.isEmpty(obj.toString())) {
+            userType = Integer.valueOf(obj.toString());
+        }
+        return userType;
+    }
 }

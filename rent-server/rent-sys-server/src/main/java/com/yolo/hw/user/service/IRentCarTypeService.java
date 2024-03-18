@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 public interface IRentCarTypeService extends IService<RentCarType> {
 

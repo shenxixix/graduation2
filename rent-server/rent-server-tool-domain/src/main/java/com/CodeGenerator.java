@@ -66,7 +66,7 @@ public class CodeGenerator {
 //                ,"rent_user_pick_up"
 //                ,"rent_user_car_back"
 //        };
-        String tables[]={"rent_v_manager"};
+     //   String tables[]={"rent_v_manager"};
 //生成的项目路径
         String projectPath = System.getProperty("user.dir") + "/rent-sys-server";
         //源码包
@@ -173,7 +173,6 @@ public class CodeGenerator {
         strategy.setEntityLombokModel(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
 
-        strategy.setInclude(tables);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();

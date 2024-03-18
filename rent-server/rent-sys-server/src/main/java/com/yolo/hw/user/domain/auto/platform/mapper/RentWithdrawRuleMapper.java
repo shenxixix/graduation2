@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 public interface RentWithdrawRuleMapper extends BaseMapper<RentWithdrawRule> {
 

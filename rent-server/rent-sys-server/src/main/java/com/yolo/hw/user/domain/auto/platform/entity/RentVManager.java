@@ -14,17 +14,17 @@ import lombok.experimental.Accessors;
 
 /**
  * <p>
- * 管理端用户表
+ * 
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("rent_v_manager")
-@ApiModel(value="RentVManager对象", description="管理端用户表")
+@ApiModel(value="RentVManager对象", description="")
 public class RentVManager extends Model<RentVManager> {
 
     private static final long serialVersionUID = 1L;
@@ -50,8 +50,8 @@ public class RentVManager extends Model<RentVManager> {
     private Integer userSex;
 
     @ApiModelProperty(value = "车企id")
-    @TableField("company_id")
-    private String companyId;
+    @TableField("enterprise_id")
+    private Long enterpriseId;
 
     @ApiModelProperty(value = "1:平台管理员; 2:车企管理员")
     @TableField("user_role")

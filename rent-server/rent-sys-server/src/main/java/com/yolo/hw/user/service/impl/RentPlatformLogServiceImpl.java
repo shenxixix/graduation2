@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 @Service
 public class RentPlatformLogServiceImpl extends ServiceImpl<RentPlatformLogMapper, RentPlatformLog> implements IRentPlatformLogService {

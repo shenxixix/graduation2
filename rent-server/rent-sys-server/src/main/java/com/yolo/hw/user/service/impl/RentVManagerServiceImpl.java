@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * 管理端用户表 服务实现类
+ *  服务实现类
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 @Service
 public class RentVManagerServiceImpl extends ServiceImpl<RentVManagerMapper, RentVManager> implements IRentVManagerService {

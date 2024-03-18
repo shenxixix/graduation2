@@ -34,6 +34,7 @@ public class FilterInterceptor extends HandlerInterceptorAdapter {
                 userInfo = objectMapper.readValue(subInfo, UserInfo.class);
                 if (userInfo != null && userInfo.getUserId() != null) {
                     request.setAttribute("userId", userInfo.getUserId());
+                    request.setAttribute("userType", userInfo.getUserType());
                 }
             } catch (IOException e) {
                 log.error("网关-解析用户token错误：", e);

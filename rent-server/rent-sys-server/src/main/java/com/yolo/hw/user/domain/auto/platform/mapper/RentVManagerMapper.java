@@ -5,11 +5,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * <p>
- * 管理端用户表 Mapper 接口
+ *  Mapper 接口
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 public interface RentVManagerMapper extends BaseMapper<RentVManager> {
 

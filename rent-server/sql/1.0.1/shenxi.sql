@@ -5,7 +5,7 @@ CREATE TABLE rent_v_manager (
   user_password varchar(100) NOT NULL,
   user_mobile varchar(20) NOT NULL,
   user_sex int4,
-  enterprise_id varchar(40),
+  enterprise_id int8,
   user_role int4,
   user_account_status int4 DEFAULT 1,
   creator_id int8,
@@ -25,7 +25,7 @@ COMMENT ON COLUMN rent_v_manager.creator_id IS '创建者id';
 COMMENT ON COLUMN rent_v_manager.update_timestamp IS '更新时间戳';
 COMMENT ON COLUMN rent_v_manager.insert_timestamp IS '插入时间戳';
 COMMENT ON TABLE rent_v_manager IS '管理端用户表';
-INSERT INTO rent_v_manager(user_id, user_name, user_password, user_mobile, user_sex, company_id, user_role, user_account_status, creator_id, update_timestamp, insert_timestamp) VALUES (1, '平台管理员', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '158000001234', 1, NULL, 1, 1, 1, now(), now());
+INSERT INTO rent_v_manager(user_id, user_name, user_password, user_mobile, user_sex, enterprise_id, user_role, user_account_status, creator_id, update_timestamp, insert_timestamp) VALUES (1, '平台管理员', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', '158000001234', 1, NULL, 1, 1, 1, now(), now());
 
 CREATE TABLE rent_v_enterprise (
   key_id int8 NOT NULL,

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yolo.hw.user.domain.custom.dao.MenuDao">
+    <select id="findUserMenus" resultType="com.yolo.hw.user.domain.auto.platform.entity.RentVMenu">
+        SELECT
+            m.*
+        FROM
+            rent_v_menu m
+            INNER JOIN rent_v_role_menu rm ON M.menu_id = rm.menu_id
+            INNER JOIN rent_v_user_role ur ON ur.role_id = rm.role_id
+            INNER JOIN rent_v_manager mn ON mn.user_id = ur.user_id
+        where mn.user_id = #{userId}
+    </select>
+</mapper>

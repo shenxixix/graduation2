@@ -18,7 +18,7 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -64,9 +64,6 @@ public class RentVMenu extends Model<RentVMenu> {
     @ApiModelProperty(value = "插入时间戳")
     @TableField("insert_timestamp")
     private Date insertTimestamp;
-
-    @TableField("perm_val")
-    private Integer permVal;
 
 
     @Override

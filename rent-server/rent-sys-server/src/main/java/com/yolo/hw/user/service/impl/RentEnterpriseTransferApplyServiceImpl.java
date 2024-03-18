@@ -1,7 +1,7 @@
 package com.yolo.hw.user.service.impl;
 
-import com.yolo.hw.user.domain.auto.enterprise.entity.RentEnterpriseTransferApply;
-import com.yolo.hw.user.domain.auto.enterprise.mapper.RentEnterpriseTransferApplyMapper;
+import com.yolo.hw.user.domain.auto.platform.entity.RentEnterpriseTransferApply;
+import com.yolo.hw.user.domain.auto.platform.mapper.RentEnterpriseTransferApplyMapper;
 import com.yolo.hw.user.service.IRentEnterpriseTransferApplyService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author shenxi
- * @since 2024-03-04
+ * @since 2024-03-18
  */
 @Service
 public class RentEnterpriseTransferApplyServiceImpl extends ServiceImpl<RentEnterpriseTransferApplyMapper, RentEnterpriseTransferApply> implements IRentEnterpriseTransferApplyService {

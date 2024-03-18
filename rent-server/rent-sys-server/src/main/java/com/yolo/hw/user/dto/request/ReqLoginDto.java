@@ -2,22 +2,20 @@ package com.yolo.hw.user.dto.request;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.NotEmpty;
 
 @Data
+@Validated
 public class ReqLoginDto {
+
     @ApiModelProperty(value = "手机号", required = true)
+    @NotEmpty(message = "手机号为空")
     private String userMobile;
-    @ApiModelProperty("密码")
+
+    @ApiModelProperty(value = "密码", required = true)
+    @NotEmpty(message = "密码为空")
     private String password;
-    @ApiModelProperty("验证码登陆")
-    private String code;
-    @ApiModelProperty(notes = "推送push")
-    private String pushToken;
-    @ApiModelProperty(value = "手机型号")
-    private String mobileType;
-    @ApiModelProperty(value = "手机系统版本")
-    private String mobileSystemVersion;
-    @ApiModelProperty(value = "APP软件版本")
-    private String appVersion;
 
 }

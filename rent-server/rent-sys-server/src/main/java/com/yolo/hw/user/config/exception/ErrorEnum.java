@@ -16,6 +16,7 @@ public enum ErrorEnum implements IError {
     GATEWAY_ERR(608, "网关错误"),
     CONFIG_ERR(609, "环境配置错误"),
     API_ERR(610, "API错误"),
+    USER_PASSWORD_ERR(611, "用户名或密码错误"),
     //不要在以下加枚举。在各自系统里面增加业务枚举，这里为系统框架所用
     ;
     ErrorEnum(int code, String info) {
