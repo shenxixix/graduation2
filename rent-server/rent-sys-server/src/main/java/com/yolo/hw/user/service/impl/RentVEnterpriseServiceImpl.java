@@ -2,6 +2,7 @@ package com.yolo.hw.user.service.impl;
 
 import com.yolo.hw.user.domain.auto.platform.entity.RentVEnterprise;
 import com.yolo.hw.user.domain.auto.platform.mapper.RentVEnterpriseMapper;
+import com.yolo.hw.user.dto.request.ReqAddEnterpriseDto;
 import com.yolo.hw.user.service.IRentVEnterpriseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RentVEnterpriseServiceImpl extends ServiceImpl<RentVEnterpriseMapper, RentVEnterprise> implements IRentVEnterpriseService {
 
+    @Override
+    public void add(ReqAddEnterpriseDto reqDto) {
+
+    }
 }

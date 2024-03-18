@@ -2,6 +2,7 @@ package com.yolo.hw.user.service.impl;
 
 import com.yolo.hw.user.domain.auto.platform.entity.RentEnterpriseDriver;
 import com.yolo.hw.user.domain.auto.platform.mapper.RentEnterpriseDriverMapper;
+import com.yolo.hw.user.dto.request.ReqAddCarDto;
 import com.yolo.hw.user.service.IRentEnterpriseDriverService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class RentEnterpriseDriverServiceImpl extends ServiceImpl<RentEnterpriseDriverMapper, RentEnterpriseDriver> implements IRentEnterpriseDriverService {
 
+    /**
+     * 新增司机
+     * @param reqDto
+     */
+    @Override
+    public void add(ReqAddCarDto reqDto) {
+
+    }
 }

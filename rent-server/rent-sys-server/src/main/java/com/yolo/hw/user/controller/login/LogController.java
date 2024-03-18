@@ -13,12 +13,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.HashMap;
 
 @Api(value = "用户登陆", tags = "用户登陆")
 @RestController
@@ -52,9 +52,7 @@ public class LogController extends AbstractController {
     @RequestMapping(value = "/user/changePassword", method = RequestMethod.POST)
     public Object changePassword(@RequestBody ReqPasswordDto reqDto, HttpServletRequest request, HttpServletResponse response) {
         Long userId = getUserId(request);
-        if(userId == null) {
-            throw new SysAppException(ErrorEnum.AUTH_ERR);
-        }
+        Assert.isTrue(userId != null, ErrorEnum.AUTH_ERR.getInfo());
         reqDto.setUserId(userId);
         reqDto.setUserType(getUserType(request));
         loginService.changePassword(reqDto);
