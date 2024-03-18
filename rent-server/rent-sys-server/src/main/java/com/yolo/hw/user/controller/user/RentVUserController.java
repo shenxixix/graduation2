@@ -17,4 +17,6 @@ import org.springframework.stereotype.Controller;
 @RequestMapping("/rentVUser")
 public class RentVUserController {
 
+
+
 }
