@@ -15,5 +15,5 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 public interface IRentVEnterpriseService extends IService<RentVEnterprise> {
 
-    void add(ReqAddEnterpriseDto reqDto);
+    void addEnterprise(ReqAddEnterpriseDto reqDto);
 }

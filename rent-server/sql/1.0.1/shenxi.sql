@@ -393,6 +393,7 @@ CREATE TABLE rent_enterprise_driver (
   enterprise_id int8 NOT NULL,
   user_name varchar(20),
   mobile varchar(20),
+  driver_license varchar(100),
   status int2 default 0,
   is_del int2 default 0,
   insert_timestamp timestamp(6) DEFAULT CURRENT_TIMESTAMP,
@@ -405,6 +406,7 @@ COMMENT ON COLUMN rent_enterprise_driver.user_name IS '姓名';
 COMMENT ON COLUMN rent_enterprise_driver.mobile IS '联系电话';
 COMMENT ON COLUMN rent_enterprise_driver.status IS '状态0空闲 1派车中';
 COMMENT ON COLUMN rent_enterprise_driver.is_del IS '删除状态 0 正常 1 删除';
+COMMENT ON COLUMN rent_enterprise_driver.driver_license IS '驾照图片';
 COMMENT ON COLUMN rent_enterprise_driver.insert_timestamp IS '插入时间戳';
 COMMENT ON COLUMN rent_enterprise_driver.update_timestamp IS '更新时间戳';
 COMMENT ON TABLE rent_enterprise_driver IS '企业驾驶员';
@@ -412,6 +414,7 @@ COMMENT ON TABLE rent_enterprise_driver IS '企业驾驶员';
 CREATE TABLE rent_v_product (
   key_id int8 NOT NULL,
   enterprise_id int8 NOT NULL,
+  product_name varchar(100) NOT NULL,
   car_model_id int8 NOT NULL,
   day_fee int4,
   pic varchar(100),
@@ -426,6 +429,7 @@ CREATE TABLE rent_v_product (
 
 COMMENT ON COLUMN rent_v_product.key_id IS '主键ID';
 COMMENT ON COLUMN rent_v_product.enterprise_id IS '企业ID';
+COMMENT ON COLUMN rent_v_product.product_name IS '产品名称';
 COMMENT ON COLUMN rent_v_product.car_model_id IS '车辆型号ID';
 COMMENT ON COLUMN rent_v_product.day_fee IS '日租费(单位:分)';
 COMMENT ON COLUMN rent_v_product.pic IS '产品图片';

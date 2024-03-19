@@ -63,6 +63,10 @@ public class RentDispatchCar extends Model<RentDispatchCar> {
     @TableField("end_address")
     private String endAddress;
 
+    @ApiModelProperty(value = "司机ID")
+    @TableField("driver_id")
+    private Long driverId;
+
     @ApiModelProperty(value = "车辆ID")
     @TableField("car_id")
     private Long carId;
@@ -80,6 +84,22 @@ public class RentDispatchCar extends Model<RentDispatchCar> {
 
     @TableField("insert_timestamp")
     private Date insertTimestamp;
+
+    @ApiModelProperty(value = "取车地址纬度")
+    @TableField("start_latitude")
+    private Double startLatitude;
+
+    @ApiModelProperty(value = "取车地址经度")
+    @TableField("start_longitude")
+    private Double startLongitude;
+
+    @ApiModelProperty(value = "还车地址纬度")
+    @TableField("end_latitude")
+    private Double endLatitude;
+
+    @ApiModelProperty(value = "还车地址经度")
+    @TableField("end_longitude")
+    private Double endLongitude;
 
 
     @Override

@@ -4,6 +4,7 @@ package com.yolo.hw.user.controller.enterprise;
 import com.yolo.hw.user.common.Success;
 import com.yolo.hw.user.domain.auto.platform.entity.RentVEnterprise;
 import com.yolo.hw.user.dto.request.ReqAddCarDto;
+import com.yolo.hw.user.dto.request.ReqAddDriverDto;
 import com.yolo.hw.user.service.IRentEnterpriseDriverService;
 import com.yolo.hw.user.service.impl.RentEnterpriseCarServiceImpl;
 import com.yolo.hw.user.service.impl.RentEnterpriseDriverServiceImpl;
@@ -35,7 +36,8 @@ public class RentEnterpriseDriverController {
 
     @ApiOperation(value = "新增司机", notes = "新增司机", response = Object.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Object add(@RequestBody ReqAddCarDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+    public Object add(@RequestBody ReqAddDriverDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+        driverService.addDriver(reqDto);
         return Success.ok();
     }
 }

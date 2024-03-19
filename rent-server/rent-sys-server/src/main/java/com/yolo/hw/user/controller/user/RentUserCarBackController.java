@@ -35,6 +35,7 @@ public class RentUserCarBackController {
     @ApiOperation(value = "还车", notes = "还车", response = Object.class)
     @RequestMapping(value = "/backCar", method = RequestMethod.POST)
     public Object backCar(@RequestBody ReqBackCarDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+        carBackService.backCar(reqDto);
         return Success.ok();
     }
 }

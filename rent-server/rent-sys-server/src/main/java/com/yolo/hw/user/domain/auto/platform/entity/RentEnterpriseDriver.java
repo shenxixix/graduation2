@@ -61,6 +61,10 @@ public class RentEnterpriseDriver extends Model<RentEnterpriseDriver> {
     @TableField("update_timestamp")
     private Date updateTimestamp;
 
+    @ApiModelProperty(value = "驾照")
+    @TableField("driver_license")
+    private String driverLicense;
+
 
     @Override
     protected Serializable pkVal() {

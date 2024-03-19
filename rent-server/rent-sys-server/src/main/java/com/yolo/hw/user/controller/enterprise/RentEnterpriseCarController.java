@@ -36,6 +36,7 @@ public class RentEnterpriseCarController {
     @ApiOperation(value = "新增车辆", notes = "新增车辆", response = Object.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Object add(@RequestBody ReqAddCarDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+        carService.addCar(reqDto);
         return Success.ok();
     }
 }

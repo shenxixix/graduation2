@@ -3,7 +3,6 @@ package com.yolo.hw.user.controller.login;
 
 import com.yolo.hw.user.common.Success;
 import com.yolo.hw.user.config.exception.ErrorEnum;
-import com.yolo.hw.user.config.exception.SysAppException;
 import com.yolo.hw.user.controller.AbstractController;
 import com.yolo.hw.user.dto.request.*;
 import com.yolo.hw.user.dto.response.ResUserLoginDto;

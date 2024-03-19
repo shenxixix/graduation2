@@ -35,6 +35,7 @@ public class RentVProductController {
     @ApiOperation(value = "新增产品", notes = "新增产品", response = Object.class)
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Object add(@RequestBody ReqAddProductDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+        productService.addProduct(reqDto);
         return Success.ok();
     }
 

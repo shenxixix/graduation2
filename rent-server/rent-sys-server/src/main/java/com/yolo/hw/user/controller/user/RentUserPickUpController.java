@@ -35,6 +35,7 @@ public class RentUserPickUpController {
     @ApiOperation(value = "取车", notes = "取车", response = Object.class)
     @RequestMapping(value = "/pickUpCar", method = RequestMethod.POST)
     public Object pickUpCar(@RequestBody ReqPickCarDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+        pickUpService.pickUpCar(reqDto);
         return Success.ok();
     }
 }

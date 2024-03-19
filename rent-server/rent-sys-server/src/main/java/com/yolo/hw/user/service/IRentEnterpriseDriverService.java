@@ -3,6 +3,7 @@ package com.yolo.hw.user.service;
 import com.yolo.hw.user.domain.auto.platform.entity.RentEnterpriseDriver;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yolo.hw.user.dto.request.ReqAddCarDto;
+import com.yolo.hw.user.dto.request.ReqAddDriverDto;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -15,5 +16,5 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 public interface IRentEnterpriseDriverService extends IService<RentEnterpriseDriver> {
 
-    void add(ReqAddCarDto reqDto);
+    void addDriver(ReqAddDriverDto reqDto);
 }

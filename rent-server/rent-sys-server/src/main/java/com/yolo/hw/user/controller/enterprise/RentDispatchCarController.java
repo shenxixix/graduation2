@@ -35,7 +35,7 @@ public class RentDispatchCarController {
     @ApiOperation(value = "派车", notes = "派车", response = Object.class)
     @RequestMapping(value = "/dispatchCar", method = RequestMethod.POST)
     public Object dispatchCar(@RequestBody ReqDispatchCarDto reqDto, HttpServletRequest request, HttpServletResponse response) {
-
+        dispatchCarService.dispatchCar(reqDto);
         return Success.ok();
     }
 }

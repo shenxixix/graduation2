@@ -69,17 +69,13 @@ public class RentVEnterprise extends Model<RentVEnterprise> {
     @TableField("introduce")
     private String introduce;
 
-    @ApiModelProperty(value = "门头照片")
+    @ApiModelProperty(value = "营业执照照片")
     @TableField("ep_pics")
     private String epPics;
 
     @ApiModelProperty(value = "承诺书")
     @TableField("promise_pdf")
     private String promisePdf;
-
-    @ApiModelProperty(value = "价目表")
-    @TableField("price_list_pdf")
-    private String priceListPdf;
 
     @ApiModelProperty(value = "状态(0:正常,1:停用)")
     @TableField("ep_status")
@@ -104,10 +100,6 @@ public class RentVEnterprise extends Model<RentVEnterprise> {
     @ApiModelProperty(value = "添加单位ID")
     @TableField("opt_org_id")
     private String optOrgId;
-
-    @ApiModelProperty(value = "维修企业编码")
-    @TableField("fault_ep_code")
-    private String faultEpCode;
 
     @ApiModelProperty(value = "服务开始时间")
     @TableField("service_start_time")

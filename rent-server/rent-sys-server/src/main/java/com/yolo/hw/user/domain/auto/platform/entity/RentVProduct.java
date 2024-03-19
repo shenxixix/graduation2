@@ -33,6 +33,10 @@ public class RentVProduct extends Model<RentVProduct> {
     @TableId("key_id")
     private Long keyId;
 
+    @ApiModelProperty(value = "产品名称")
+    @TableField("productName")
+    private String productName;
+
     @ApiModelProperty(value = "企业ID")
     @TableField("enterprise_id")
     private Long enterpriseId;
@@ -72,7 +76,6 @@ public class RentVProduct extends Model<RentVProduct> {
     @ApiModelProperty(value = "插入时间戳")
     @TableField("insert_timestamp")
     private Date insertTimestamp;
-
 
     @Override
     protected Serializable pkVal() {

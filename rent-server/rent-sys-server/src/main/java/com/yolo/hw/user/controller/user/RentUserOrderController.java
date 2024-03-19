@@ -37,12 +37,13 @@ public class RentUserOrderController {
     @ApiOperation(value = "生成订单", notes = "生成订单", response = ResCreateOrderDto.class)
     @RequestMapping(value = "/createOrder", method = RequestMethod.POST)
     public Object createOrder(@RequestBody ReqCreateOrderDto reqDto, HttpServletRequest request, HttpServletResponse response) {
-        return Success.ok();
+        return orderService.createOrder(reqDto);
     }
 
     @ApiOperation(value = "订单支付完成回调", notes = "订单支付完成回调", response = Object.class)
     @RequestMapping(value = "/payFinish", method = RequestMethod.POST)
     public Object payFinish(@RequestBody ReqOrderPayFinishDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+        orderService.payFinishBack(reqDto);
         return Success.ok();
     }
 }
