@@ -69,6 +69,10 @@ public class RentVProduct extends Model<RentVProduct> {
     @TableField("opt_user_id")
     private Long optUserId;
 
+    @ApiModelProperty(value = "备注")
+    @TableField("remark")
+    private String remark;
+
     @ApiModelProperty(value = "更新时间戳")
     @TableField("update_timestamp")
     private Date updateTimestamp;

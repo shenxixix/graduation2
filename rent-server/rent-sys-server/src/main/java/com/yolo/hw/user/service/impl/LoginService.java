@@ -138,12 +138,24 @@ public class LoginService implements ILoginService {
         String code = reqDto.getCode();
         String password = reqDto.getPassword();
         Assert.isTrue(validatePassword(password), "密码格式不正确");
-        validateCode(code, String.format("user:code:%d:%s", 1, mobile));
+        Assert.isTrue(validateCode(code, String.format("user:code:%d:%s", 1, mobile)), "验证码错误");
         RentVUser rentVUser = userMapper.selectOne(Wrappers.<RentVUser>lambdaQuery().eq(RentVUser::getUserMobile, mobile).last(" limit 1"));
         Assert.isTrue(rentVUser != null, "无效用户");
         rentVUser.setUserPassword(password);
         rentVUser.setUpdateTimestamp(new Date());
         rentVUser.updateById();
+        JwtUrsToken jwtUrsToken = new JwtUrsToken();
+        ResUserInfoDto user = new ResUserInfoDto();
+        BeanUtils.copyProperties(rentVUser, user);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(user.getUserId());
+        userInfo.setUserMobile(mobile);
+        // 有效期暂定10天
+        userInfo.setExpireTime(System.currentTimeMillis() + 10*24*60*60*1000);
+        // 用户类型1:平台|企业 2:租车用户
+        userInfo.setUserType(2);
+        String token = jwtUrsToken.genertator(userInfo, null);
+        resDto.setToken(token);
         return resDto;
     }
 
@@ -228,11 +240,12 @@ public class LoginService implements ILoginService {
      * @param code
      * @param redisKey
      */
-    private void validateCode(String code, String redisKey) {
+    private boolean validateCode(String code, String redisKey) {
         String redisCode = (String)redisTemplate.opsForValue().get(redisKey);
         if(redisCode == null || !redisCode.equals(code)) {
-            throw new SysAppException(ErrorEnum.BUSINESS_ERR.getCode(), "验证码异常");
+            return false;
         }
+        return true;
     }
 
     /**

@@ -52,4 +52,7 @@ public class ReqAddEnterpriseDto {
 
     @ApiModelProperty(value = "提现手机号")
     private String withdrawBankMobile;
+
+    @ApiModelProperty(value = "设置密码")
+    private String password;
 }

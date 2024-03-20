@@ -1,6 +1,7 @@
 package com.yolo.hw.user.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.api.R;
 import com.yolo.hw.user.common.Success;
@@ -50,13 +51,15 @@ public class RentVEnterpriseServiceImpl extends ServiceImpl<RentVEnterpriseMappe
         int managerNum = managerMapper.selectCount(Wrappers.<RentVManager>lambdaQuery().eq(RentVManager::getUserMobile, reqDto.getContactsPhone()));
         Assert.isTrue(managerNum <= 0, "电话号码重复");
         /** 创建企业管端账号 **/
+        String password = reqDto.getPassword();
+        password = StringUtils.isBlank(password) ? new Sha256Hash("password123").toHex() : password;
         Long enterpriseId = IdWorker.getId();
         Long managerId = IdWorker.getId();
         RentVManager manager = new RentVManager();
         manager.setEnterpriseId(enterpriseId);
         manager.setCreatorId(reqDto.getUserId());
         manager.setUserMobile(reqDto.getContactsPhone());
-        manager.setUserPassword(new Sha256Hash("password123").toHex());
+        manager.setUserPassword(password);
         manager.setUserName(reqDto.getContactsPhone());
         manager.setUserId(managerId);
         manager.insert();

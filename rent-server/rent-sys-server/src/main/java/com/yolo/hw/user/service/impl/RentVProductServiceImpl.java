@@ -44,6 +44,7 @@ public class RentVProductServiceImpl extends ServiceImpl<RentVProductMapper, Ren
         product.setDayFee(reqDto.getDayFee());
         product.setEnterpriseId(reqDto.getEnterpriseId());
         product.setCarModelId(reqDto.getCarModelId());
+        product.setRemark(reqDto.getRemark());
         product.insert();
     }
 

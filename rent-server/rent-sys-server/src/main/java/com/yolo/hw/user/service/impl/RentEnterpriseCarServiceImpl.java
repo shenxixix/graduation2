@@ -39,14 +39,14 @@ public class RentEnterpriseCarServiceImpl extends ServiceImpl<RentEnterpriseCarM
         // 效验车牌号
         String license = reqDto.getLicense();
         int carNum = carMapper.selectCount(Wrappers.<RentEnterpriseCar>lambdaQuery().eq(RentEnterpriseCar::getLicense, license).eq(RentEnterpriseCar::getDeleteFlag, 0));
-        Assert.isTrue(carNum <= 0, "该司机已经存在");
+        Assert.isTrue(carNum <= 0, "该车牌已经存在");
         /** 创建司机 **/
-        RentEnterpriseCar driver = new RentEnterpriseCar();
-        driver.setCarId(IdWorker.getId());
-        driver.setEnterpriseId(reqDto.getEnterpriseId());
-        driver.setLicense(reqDto.getLicense());
-        driver.setCarModelId(reqDto.getCarModelId());
-        driver.insert();
+        RentEnterpriseCar car = new RentEnterpriseCar();
+        car.setCarId(IdWorker.getId());
+        car.setEnterpriseId(reqDto.getEnterpriseId());
+        car.setLicense(reqDto.getLicense());
+        car.setCarModelId(reqDto.getCarModelId());
+        car.insert();
     }
 
     private Success validateParams(ReqAddCarDto reqDto) {

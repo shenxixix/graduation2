@@ -79,7 +79,6 @@ public class RentUserOrderServiceImpl extends ServiceImpl<RentUserOrderMapper, R
         order.setCarTypeId(carModel.getCarTypeId());
         order.setProductDetail(createProductDetail(product));
         order.insert();
-        // TODO 生成支付串
         String payStr = createPayStr(reqDto.getPayWay(), order);
         Assert.isTrue(!StringUtils.isBlank(payStr), "生成字符串异常");
         resDto.setPayStr(payStr);

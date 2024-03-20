@@ -68,6 +68,14 @@ public class RentVUser extends Model<RentVUser> {
     @TableField("user_account_status")
     private Integer userAccountStatus;
 
+    @ApiModelProperty(value = "认证状态 0:未认证;1:已认证")
+    @TableField("authentication_status")
+    private Integer authenticationStatus;
+
+    @ApiModelProperty(value = "认证信息")
+    @TableField("authentication_flow_id")
+    private String authenticationFlowId;
+
     @TableField("update_timestamp")
     private Date updateTimestamp;
 

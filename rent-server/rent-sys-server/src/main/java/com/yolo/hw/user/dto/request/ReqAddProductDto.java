@@ -22,4 +22,7 @@ public class ReqAddProductDto {
 
     @ApiModelProperty(value = "产品特色")
     private String configParams;
+
+    @ApiModelProperty(value = "备注")
+    private String remark;
 }
