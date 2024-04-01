@@ -411,12 +411,37 @@ COMMENT ON COLUMN rent_enterprise_driver.insert_timestamp IS '插入时间戳';
 COMMENT ON COLUMN rent_enterprise_driver.update_timestamp IS '更新时间戳';
 COMMENT ON TABLE rent_enterprise_driver IS '企业驾驶员';
 
+drop table rent_enterprise_store;
+CREATE TABLE rent_enterprise_store (
+  station_id int8 NOT NULL,
+  enterprise_id int8 NOT NULL,
+  station_name varchar(20),
+  mobile varchar(20),
+  latitude float8 NOT NULL,
+  longitude float8 NOT NULL,
+  location varchar(500),
+  is_del int2 default 0,
+  insert_timestamp timestamp(6) DEFAULT CURRENT_TIMESTAMP,
+  update_timestamp timestamp(6) DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT pk_rent_enterprise_store PRIMARY KEY (station_id)
+);
+COMMENT ON COLUMN rent_enterprise_store.enterprise_id IS '企业ID';
+COMMENT ON COLUMN rent_enterprise_store.name IS '站点名';
+COMMENT ON COLUMN rent_enterprise_store.mobile IS '联系电话';
+COMMENT ON COLUMN rent_enterprise_store.latitude IS '纬度';
+COMMENT ON COLUMN rent_enterprise_store.longitude IS '经度';
+COMMENT ON COLUMN rent_enterprise_store.location IS '地址';
+COMMENT ON COLUMN rent_enterprise_store.insert_timestamp IS '插入时间戳';
+COMMENT ON COLUMN rent_enterprise_store.update_timestamp IS '更新时间戳';
+COMMENT ON TABLE rent_enterprise_store IS '企业下的门店';
+
 CREATE TABLE rent_v_product (
   key_id int8 NOT NULL,
   enterprise_id int8 NOT NULL,
   product_name varchar(100) NOT NULL,
   car_model_id int8 NOT NULL,
-  day_fee int4,
+  day_fee int4 NOT NULL default 0,
+  deposit int4 NOT NULL default 0,
   pic varchar(100),
   config_params text,
   up_status int4 DEFAULT 0,
@@ -432,6 +457,7 @@ COMMENT ON COLUMN rent_v_product.enterprise_id IS '企业ID';
 COMMENT ON COLUMN rent_v_product.product_name IS '产品名称';
 COMMENT ON COLUMN rent_v_product.car_model_id IS '车辆型号ID';
 COMMENT ON COLUMN rent_v_product.day_fee IS '日租费(单位:分)';
+COMMENT ON COLUMN rent_v_product.deposit IS '押金(单位:分)';
 COMMENT ON COLUMN rent_v_product.pic IS '产品图片';
 COMMENT ON COLUMN rent_v_product.config_params IS '产品特色';
 COMMENT ON COLUMN rent_v_product.up_status IS '上架状态(0:待处理,1:已上架,2:已下架)';
@@ -578,6 +604,7 @@ CREATE TABLE rent_user_order (
   end_latitude float8 NOT NULL,
   end_longitude float8 NOT NULL,
   fee int8 NOT NULL default 0,
+  deposit int8 NOT NULL default 0,
   car_brand_id int8 NOT NULL,
   car_brand varchar(200) NOT NULL,
   car_model_id int8 NOT NULL,
@@ -589,6 +616,7 @@ CREATE TABLE rent_user_order (
   status int2 NOT NULL DEFAULT 0,
   settle_status int2 NOT NULL DEFAULT 0,
   settle_fee int8 NOT NULL DEFAULT 0,
+  contract_url varchar(200),
   update_timestamp timestamp(6) DEFAULT now(),
   insert_timestamp timestamp(6) DEFAULT now(),
   CONSTRAINT pk_rent_user_order PRIMARY KEY (order_id)
@@ -609,6 +637,7 @@ COMMENT ON COLUMN rent_user_order.end_address IS '还车地址';
 COMMENT ON COLUMN rent_user_order.end_latitude IS '还车地址纬度';
 COMMENT ON COLUMN rent_user_order.end_longitude IS '还车地址经度';
 COMMENT ON COLUMN rent_user_order.fee IS '费用(分)';
+COMMENT ON COLUMN rent_user_order.deposit IS '押金(分)';
 COMMENT ON COLUMN rent_user_order.car_brand IS '车品牌';
 COMMENT ON COLUMN rent_user_order.car_model IS '车型';
 COMMENT ON COLUMN rent_user_order.car_type IS '车类型';
@@ -617,6 +646,7 @@ COMMENT ON COLUMN rent_user_order.product_detail IS '产品详情';
 COMMENT ON COLUMN rent_user_order.status IS '状态0待支付 1:已支付 2:已取消';
 COMMENT ON COLUMN rent_user_order.settle_status IS '结算状态0:未结算 1:已结算';
 COMMENT ON COLUMN rent_user_order.settle_fee IS '结算费用';
+COMMENT ON COLUMN rent_user_order.contract_url IS '合同文件';
 COMMENT ON TABLE rent_user_order IS '租赁订单表';
 
 drop table rent_user_pick_up;
@@ -663,3 +693,37 @@ COMMENT ON COLUMN rent_user_car_back.remark IS '备注';
 COMMENT ON COLUMN rent_user_car_back.extra_fee IS '额外费用(分)';
 COMMENT ON TABLE rent_user_car_back IS '还车信息表';
 
+CREATE TABLE rent_contract_template (
+  key_id int8 NOT NULL,
+  template_url varchar(200) COLLATE pg_catalog.default NOT NULL,
+  opt_user_id int8,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_rent_contract_template PRIMARY KEY (key_id)
+);
+COMMENT ON COLUMN rent_contract_template.template_url IS '模板地址';
+COMMENT ON TABLE rent_contract_template IS '模版配置表';
+
+CREATE TABLE rent_user_evaluate (
+  key_id int8 NOT NULL,
+  order_id int8,
+  company_id int8,
+  product_id int8,
+  total_score int4,
+  time_score int4,
+  skill_score int4,
+  content varchar(200),
+  photos text,
+  update_timestamp timestamp(6) DEFAULT now(),
+  insert_timestamp timestamp(6) DEFAULT now(),
+  CONSTRAINT pk_rent_user_evaluate PRIMARY KEY (key_id)
+);
+COMMENT ON COLUMN rent_user_evaluate.order_id IS '订单id';
+COMMENT ON COLUMN rent_user_evaluate.company_id IS '公司id';
+COMMENT ON COLUMN rent_user_evaluate.product_id IS '产品id';
+COMMENT ON COLUMN rent_user_evaluate.total_score IS '总分';
+COMMENT ON COLUMN rent_user_evaluate.time_score IS '时效评分';
+COMMENT ON COLUMN rent_user_evaluate.skill_score IS '模板地址';
+COMMENT ON COLUMN rent_user_evaluate.content IS '技能评分';
+COMMENT ON COLUMN rent_user_evaluate.photos IS '评价图片多个逗号隔开';
+COMMENT ON TABLE rent_user_evaluate IS '用户评价表';

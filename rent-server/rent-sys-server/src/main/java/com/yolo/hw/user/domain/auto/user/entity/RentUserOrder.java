@@ -95,6 +95,10 @@ public class RentUserOrder extends Model<RentUserOrder> {
     @TableField("fee")
     private Long fee;
 
+    @ApiModelProperty(value = "押金(单位:分)")
+    @TableField("deposit")
+    private Integer deposit;
+
     @TableField("car_brand_id")
     private Long carBrandId;
 

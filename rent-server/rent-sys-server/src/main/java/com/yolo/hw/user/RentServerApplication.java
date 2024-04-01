@@ -3,13 +3,13 @@ package com.yolo.hw.user;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-@SpringBootApplication
 @Log4j2
 @ComponentScan({
 		"com.yolo.hw.user",
@@ -18,8 +18,9 @@ import java.net.UnknownHostException;
 		"com.yolo.hw.user.config.weblog",
 		"com.yolo.hw.user.config.normal",
 })
+@SpringBootApplication
+@EnableEurekaClient
 public class RentServerApplication {
-
 	public static void main(String[] args) {
 		ConfigurableApplicationContext context = SpringApplication.run(RentServerApplication.class, args);
 		log.info("汽车租赁服务启动完成");

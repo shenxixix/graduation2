@@ -35,6 +35,32 @@ spring:
     port: 7001
     password: 123456
 
+#注册中心
+eureka:
+  client:
+    # 实例是否使用同一zone里的eureka服务器
+    prefer-same-zone-eureka: true
+    region: rent-sys
+    service-url:
+      zone1: http://127.0.0.1:8760/eureka/
+    availability-zones:
+      rent-sys: zone1
+    # 从eureka服务器注册表中获取注册信息的时间间隔(s)
+    registry-fetch-interval-seconds: 15
+    # 最初复制实例信息到eureka服务器所需的时间(s)
+    initial-instance-info-replication-interval-seconds: 10
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}/${spring.application.name}
+    #    metadataMap.zone: zone1
+    # eureka客户需要多长时间发送心跳给eureka服务器
+    lease-renewal-interval-in-seconds:  30
+    # eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除
+    lease-expiration-duration-in-seconds: 90
+    #显示ip
+    prefer-ip-address: true
+
+
+
 management:
   security:
     enabled: false

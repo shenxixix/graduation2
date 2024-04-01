@@ -45,6 +45,10 @@ public class RentVProduct extends Model<RentVProduct> {
     @TableField("day_fee")
     private Integer dayFee;
 
+    @ApiModelProperty(value = "押金(单位:分)")
+    @TableField("deposit")
+    private Integer deposit;
+
     @ApiModelProperty(value = "产品图片")
     @TableField("pic")
     private String pic;

@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement
 @MapperScan({"com.yolo.hw.user.domain.**"})
 public class MybatisPlusConfig {
-
     /**
      * mybatis-plus分页插件
      *
