@@ -366,6 +366,7 @@ COMMENT ON TABLE rent_platform_log IS '平台日志';
 CREATE TABLE rent_enterprise_car (
   car_id int8 NOT NULL,
   enterprise_id int8 NOT NULL,
+  store_id int8,
   license varchar(10) NOT NULL,
   car_model_id int8 NOT NULL,
   register_date timestamp(6) NOT NULL,
@@ -377,6 +378,7 @@ CREATE TABLE rent_enterprise_car (
   CONSTRAINT pk_rent_enterprise_car PRIMARY KEY (car_id)
 );
 COMMENT ON COLUMN rent_enterprise_car.car_id IS '主键ID';
+COMMENT ON COLUMN rent_enterprise_car.store_id IS '门店ID';
 COMMENT ON COLUMN rent_enterprise_car.license IS '车牌号';
 COMMENT ON COLUMN rent_enterprise_car.car_model_id IS '车辆型号ID';
 COMMENT ON COLUMN rent_enterprise_car.register_date IS '注册日期';
@@ -391,6 +393,7 @@ drop table rent_enterprise_driver;
 CREATE TABLE rent_enterprise_driver (
   driver_id int8 NOT NULL,
   enterprise_id int8 NOT NULL,
+  store_id int8 NOT NULL,
   user_name varchar(20),
   mobile varchar(20),
   driver_license varchar(100),
@@ -402,6 +405,7 @@ CREATE TABLE rent_enterprise_driver (
 );
 COMMENT ON COLUMN rent_enterprise_driver.driver_id IS '司机ID';
 COMMENT ON COLUMN rent_enterprise_driver.enterprise_id IS '企业ID';
+COMMENT ON COLUMN rent_enterprise_driver.store_id IS '门店ID';
 COMMENT ON COLUMN rent_enterprise_driver.user_name IS '姓名';
 COMMENT ON COLUMN rent_enterprise_driver.mobile IS '联系电话';
 COMMENT ON COLUMN rent_enterprise_driver.status IS '状态0空闲 1派车中';
@@ -413,9 +417,10 @@ COMMENT ON TABLE rent_enterprise_driver IS '企业驾驶员';
 
 drop table rent_enterprise_store;
 CREATE TABLE rent_enterprise_store (
-  station_id int8 NOT NULL,
+  store_id int8 NOT NULL,
   enterprise_id int8 NOT NULL,
-  station_name varchar(20),
+  name varchar(20),
+  contract_user varchar(20),
   mobile varchar(20),
   latitude float8 NOT NULL,
   longitude float8 NOT NULL,
@@ -423,7 +428,7 @@ CREATE TABLE rent_enterprise_store (
   is_del int2 default 0,
   insert_timestamp timestamp(6) DEFAULT CURRENT_TIMESTAMP,
   update_timestamp timestamp(6) DEFAULT CURRENT_TIMESTAMP,
-  CONSTRAINT pk_rent_enterprise_store PRIMARY KEY (station_id)
+  CONSTRAINT pk_rent_enterprise_store PRIMARY KEY (store_id)
 );
 COMMENT ON COLUMN rent_enterprise_store.enterprise_id IS '企业ID';
 COMMENT ON COLUMN rent_enterprise_store.name IS '站点名';
@@ -440,6 +445,7 @@ CREATE TABLE rent_v_product (
   enterprise_id int8 NOT NULL,
   product_name varchar(100) NOT NULL,
   car_model_id int8 NOT NULL,
+  day_fee int4 NOT NULL default 0,
   day_fee int4 NOT NULL default 0,
   deposit int4 NOT NULL default 0,
   pic varchar(100),
@@ -617,6 +623,7 @@ CREATE TABLE rent_user_order (
   settle_status int2 NOT NULL DEFAULT 0,
   settle_fee int8 NOT NULL DEFAULT 0,
   contract_url varchar(200),
+  pay_order_no varchar(200),
   update_timestamp timestamp(6) DEFAULT now(),
   insert_timestamp timestamp(6) DEFAULT now(),
   CONSTRAINT pk_rent_user_order PRIMARY KEY (order_id)
@@ -707,7 +714,7 @@ COMMENT ON TABLE rent_contract_template IS '模版配置表';
 CREATE TABLE rent_user_evaluate (
   key_id int8 NOT NULL,
   order_id int8,
-  company_id int8,
+  enterprise_id int8,
   product_id int8,
   total_score int4,
   time_score int4,
@@ -719,7 +726,7 @@ CREATE TABLE rent_user_evaluate (
   CONSTRAINT pk_rent_user_evaluate PRIMARY KEY (key_id)
 );
 COMMENT ON COLUMN rent_user_evaluate.order_id IS '订单id';
-COMMENT ON COLUMN rent_user_evaluate.company_id IS '公司id';
+COMMENT ON COLUMN rent_user_evaluate.enterprise_id IS '公司id';
 COMMENT ON COLUMN rent_user_evaluate.product_id IS '产品id';
 COMMENT ON COLUMN rent_user_evaluate.total_score IS '总分';
 COMMENT ON COLUMN rent_user_evaluate.time_score IS '时效评分';

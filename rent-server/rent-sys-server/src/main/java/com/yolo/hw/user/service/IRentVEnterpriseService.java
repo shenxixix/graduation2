@@ -3,6 +3,7 @@ package com.yolo.hw.user.service;
 import com.yolo.hw.user.domain.auto.platform.entity.RentVEnterprise;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yolo.hw.user.dto.request.ReqAddEnterpriseDto;
+import com.yolo.hw.user.dto.request.ReqEnterpriseStoreDto;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -16,4 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface IRentVEnterpriseService extends IService<RentVEnterprise> {
 
     void addEnterprise(ReqAddEnterpriseDto reqDto);
+
+    void addStore(ReqEnterpriseStoreDto reqDto);
 }

@@ -9,7 +9,9 @@ import com.yolo.hw.user.domain.auto.platform.entity.RentVEnterprise;
 import com.yolo.hw.user.domain.auto.platform.entity.RentVManager;
 import com.yolo.hw.user.domain.auto.platform.mapper.RentVEnterpriseMapper;
 import com.yolo.hw.user.domain.auto.platform.mapper.RentVManagerMapper;
+import com.yolo.hw.user.domain.auto.user.entity.RentEnterpriseStore;
 import com.yolo.hw.user.dto.request.ReqAddEnterpriseDto;
+import com.yolo.hw.user.dto.request.ReqEnterpriseStoreDto;
 import com.yolo.hw.user.service.IRentVEnterpriseService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -70,7 +72,26 @@ public class RentVEnterpriseServiceImpl extends ServiceImpl<RentVEnterpriseMappe
         enterprise.insert();
     }
 
+    /**
+     * 新增门店
+     * @param reqDto
+     */
+    @Override
+    public void addStore(ReqEnterpriseStoreDto reqDto) {
+        /** 参数校验 **/
+        Assert.isTrue(validateStoreParams(reqDto).getCode() == 0, validateStoreParams(reqDto).getMsg());
+        /** 创建门店**/
+        RentEnterpriseStore store = new RentEnterpriseStore();
+        store.setStoreId(IdWorker.getId());
+        BeanUtils.copyProperties(reqDto, store);
+        store.insert();
+    }
+
     private Success validateParams(ReqAddEnterpriseDto reqDto) {
+        return Success.ok();
+    }
+
+    private Success validateStoreParams(ReqEnterpriseStoreDto reqDto) {
         return Success.ok();
     }
 }

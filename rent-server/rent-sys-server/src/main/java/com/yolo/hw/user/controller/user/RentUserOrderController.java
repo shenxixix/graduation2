@@ -3,8 +3,10 @@ package com.yolo.hw.user.controller.user;
 
 import com.yolo.hw.user.common.Success;
 import com.yolo.hw.user.domain.auto.platform.entity.RentVEnterprise;
+import com.yolo.hw.user.domain.auto.user.entity.RentUserEvaluate;
 import com.yolo.hw.user.dto.request.ReqCreateOrderDto;
 import com.yolo.hw.user.dto.request.ReqOrderPayFinishDto;
+import com.yolo.hw.user.dto.request.ReqUserEvaluateDto;
 import com.yolo.hw.user.dto.response.ResCreateOrderDto;
 import com.yolo.hw.user.service.IRentUserOrderService;
 import com.yolo.hw.user.service.IRentUserPickUpService;
@@ -46,4 +48,12 @@ public class RentUserOrderController {
         orderService.payFinishBack(reqDto);
         return Success.ok();
     }
+
+    @ApiOperation(value = "评价", notes = "评价", response = Object.class)
+    @RequestMapping(value = "/evaluate", method = RequestMethod.POST)
+    public Object evaluate(@RequestBody ReqUserEvaluateDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+        orderService.evaluate(reqDto);
+        return Success.ok();
+    }
+
 }

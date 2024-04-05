@@ -89,6 +89,8 @@ public class RentUserCarBackServiceImpl extends ServiceImpl<RentUserCarBackMappe
         }
         order.setUpdateTimestamp(new Date());
         order.updateById();
+        /** 退还用户押金 **/
+        backDeposit(order.getPayOrderNo(), order.getDeposit(), order.getPayWay());
     }
 
     private Success validateParams(ReqBackCarDto reqDto) {
@@ -96,6 +98,10 @@ public class RentUserCarBackServiceImpl extends ServiceImpl<RentUserCarBackMappe
     }
 
     private boolean transferToEnterprise(Long enterpriseId, Long fee) {
+        return true;
+    }
+
+    private boolean backDeposit(String payOrderNo, Integer deposit, Integer payWay) {
         return true;
     }
 }

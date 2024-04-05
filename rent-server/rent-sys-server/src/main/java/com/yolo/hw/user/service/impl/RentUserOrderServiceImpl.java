@@ -6,16 +6,15 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yolo.hw.user.common.Success;
-import com.yolo.hw.user.domain.auto.platform.entity.RentCarModel;
-import com.yolo.hw.user.domain.auto.platform.entity.RentDispatchCar;
-import com.yolo.hw.user.domain.auto.platform.entity.RentUserOrder;
-import com.yolo.hw.user.domain.auto.platform.entity.RentVProduct;
-import com.yolo.hw.user.domain.auto.platform.mapper.RentCarModelMapper;
-import com.yolo.hw.user.domain.auto.platform.mapper.RentUserOrderMapper;
-import com.yolo.hw.user.domain.auto.platform.mapper.RentVProductMapper;
-import com.yolo.hw.user.domain.auto.platform.mapper.RentVUserMapper;
+import com.yolo.hw.user.domain.auto.platform.entity.*;
+import com.yolo.hw.user.domain.auto.platform.mapper.*;
+import com.yolo.hw.user.domain.auto.user.entity.RentContractTemplate;
+import com.yolo.hw.user.domain.auto.user.entity.RentUserEvaluate;
+import com.yolo.hw.user.domain.auto.user.mapper.RentContractTemplateMapper;
+import com.yolo.hw.user.domain.auto.user.mapper.RentUserEvaluateMapper;
 import com.yolo.hw.user.dto.request.ReqCreateOrderDto;
 import com.yolo.hw.user.dto.request.ReqOrderPayFinishDto;
+import com.yolo.hw.user.dto.request.ReqUserEvaluateDto;
 import com.yolo.hw.user.dto.response.ResCreateOrderDto;
 import com.yolo.hw.user.service.IRentUserOrderService;
 import org.springframework.beans.BeanUtils;
@@ -45,6 +44,10 @@ public class RentUserOrderServiceImpl extends ServiceImpl<RentUserOrderMapper, R
     private RentCarModelMapper carModelMapper;
     @Autowired
     private RentUserOrderMapper orderMapper;
+    @Autowired
+    private RentVEnterpriseMapper enterpriseMapper;
+    @Autowired
+    private RentContractTemplateMapper templateMapper;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -78,10 +81,17 @@ public class RentUserOrderServiceImpl extends ServiceImpl<RentUserOrderMapper, R
         order.setCarBrandId(carModel.getCarBrandId());
         order.setCarTypeId(carModel.getCarTypeId());
         order.setProductDetail(createProductDetail(product));
-        order.insert();
-        String payStr = createPayStr(reqDto.getPayWay(), order);
+        // 生成第三方支付单号
+        String payOrderNo = String.valueOf(IdWorker.getId());
+        order.setPayOrderNo(payOrderNo);
+        String payStr = createPayStr(reqDto.getPayWay(), order, payOrderNo);
         Assert.isTrue(!StringUtils.isBlank(payStr), "生成字符串异常");
         resDto.setPayStr(payStr);
+        // 生成合文件
+        String contractUrl = createContract(reqDto);
+        order.setContractUrl(contractUrl);
+        resDto.setContractUrl(contractUrl);
+        order.insert();
         return resDto;
     }
 
@@ -113,6 +123,28 @@ public class RentUserOrderServiceImpl extends ServiceImpl<RentUserOrderMapper, R
         dispatchCar.insert();
     }
 
+    /**
+     * 评价
+     * @param reqDto
+     */
+    @Override
+    @Transactional
+    public void evaluate(ReqUserEvaluateDto reqDto) {
+        Long enterpriseId = reqDto.getEnterpriseId();
+        RentVEnterprise enterprise = enterpriseMapper.selectById(enterpriseId);
+        Assert.isTrue(enterprise != null, "企业不存在");
+        RentUserEvaluate evaluate = new RentUserEvaluate();
+        BeanUtils.copyProperties(evaluate, reqDto);
+        evaluate.setKeyId(IdWorker.getId());
+        evaluate.insert();
+        /** 修改企业评分 **/
+        enterprise.setEvaluateNum(enterprise.getEvaluateNum() + 1);
+        // 评论分计算规则：总得分/总条数
+        enterprise.setTotalStar((enterprise.getTotalStar() * enterprise.getEvaluateNum() + reqDto.getTotalScore()) / (enterprise.getEvaluateNum() + 1));
+        enterprise.setUpdateTimestamp(new Date());
+        enterprise.updateById();
+    }
+
     private Success validateParams(ReqCreateOrderDto reqDto) {
         return Success.ok();
     }
@@ -121,7 +153,7 @@ public class RentUserOrderServiceImpl extends ServiceImpl<RentUserOrderMapper, R
         return 10;
     }
 
-    private String createPayStr(Integer payWay, RentUserOrder order) {
+    private String createPayStr(Integer payWay, RentUserOrder order, String payOrderNo) {
         return "";
     }
 
@@ -131,6 +163,10 @@ public class RentUserOrderServiceImpl extends ServiceImpl<RentUserOrderMapper, R
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        return "";
+    }
+
+    private String createContract(ReqCreateOrderDto reqDto) {
         return "";
     }
 }

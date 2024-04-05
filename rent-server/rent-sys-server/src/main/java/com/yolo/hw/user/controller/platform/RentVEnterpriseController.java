@@ -3,6 +3,7 @@ package com.yolo.hw.user.controller.platform;
 
 import com.yolo.hw.user.common.Success;
 import com.yolo.hw.user.dto.request.ReqAddEnterpriseDto;
+import com.yolo.hw.user.dto.request.ReqEnterpriseStoreDto;
 import com.yolo.hw.user.service.IRentVEnterpriseService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,13 @@ public class RentVEnterpriseController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Object add(@RequestBody ReqAddEnterpriseDto reqDto, HttpServletRequest request, HttpServletResponse response) {
         enterpriseService.addEnterprise(reqDto);
+        return Success.ok();
+    }
+
+    @ApiOperation(value = "新增门店", notes = "新增门店", response = Object.class)
+    @RequestMapping(value = "/addStore", method = RequestMethod.POST)
+    public Object addStore(@RequestBody ReqEnterpriseStoreDto reqDto, HttpServletRequest request, HttpServletResponse response) {
+        enterpriseService.addStore(reqDto);
         return Success.ok();
     }
 }

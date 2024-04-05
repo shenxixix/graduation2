@@ -95,6 +95,10 @@ public class RentUserOrder extends Model<RentUserOrder> {
     @TableField("fee")
     private Long fee;
 
+    @ApiModelProperty(value = "押金(分)")
+    @TableField("deposit")
+    private Integer deposit;
+
     @TableField("car_brand_id")
     private Long carBrandId;
 
@@ -135,6 +139,14 @@ public class RentUserOrder extends Model<RentUserOrder> {
     @ApiModelProperty(value = "结算费用")
     @TableField("settle_fee")
     private Long settleFee;
+
+    @ApiModelProperty(value = "合同")
+    @TableField("contract_url")
+    private String contractUrl;
+
+    @ApiModelProperty(value = "支付单号（退款使用）")
+    @TableField("pay_order_no")
+    private String payOrderNo;
 
     @TableField("update_timestamp")
     private Date updateTimestamp;

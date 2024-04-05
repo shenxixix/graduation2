@@ -60,18 +60,17 @@ public class CodeGenerator {
         /**
          *  用户
          */
-//        String tables[]={
-//                "rent_v_user"
-//                ,"rent_user_order"
-//                ,"rent_user_pick_up"
-//                ,"rent_user_car_back"
-//        };
+        String tables[]={
+                "rent_contract_template"
+                ,"rent_enterprise_store"
+                ,"rent_user_evaluate"
+        };
      //   String tables[]={"rent_v_manager"};
 //生成的项目路径
         String projectPath = System.getProperty("user.dir") + "/rent-sys-server";
         //源码包
         String outPutDir="/src/main/java";
-        String packageName = "platform";
+        String packageName = "user";
         //xml生成文件夹
         String xmlPath=outPutDir+"/com/yolo/hw/user/domain/auto/" +packageName+ "/mapper/";
         //类的包名
@@ -110,7 +109,7 @@ public class CodeGenerator {
         dsc.setDriverName("org.postgresql.Driver");
         dsc.setUsername("cqgcgl");
         dsc.setPassword("cqgcgl");
-        dsc.setUrl("jdbc:postgresql://192.168.18.105:35432/shenxi");
+        dsc.setUrl("jdbc:postgresql://dev.gozoom.cn:35432/shenxi");
         mpg.setDataSource(dsc);
 
         // 包配置
@@ -172,7 +171,7 @@ public class CodeGenerator {
         strategy.setEntityBooleanColumnRemoveIsPrefix(true);
         strategy.setEntityLombokModel(true);
         strategy.setEntityTableFieldAnnotationEnable(true);
-
+        strategy.setInclude(tables);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
         mpg.execute();
